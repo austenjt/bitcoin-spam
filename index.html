@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bitcoin Spam: Why We Can Stop It</title>
-<meta name="description" content="Arbitrary data is crowding payments out of Bitcoin blocks. It isn't inevitable. Here is how node runners, miners and developers can push it back out.">
+<meta name="description" content="Bitcoin is money because of emergent properties like network effects and decentralization. Non-monetary data erodes them. Here is how node runners, miners and developers can push it back out.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,6 +88,21 @@ h3 { font-family: var(--sans); font-weight: 700; font-stretch: 100%; font-size: 
 p { margin: 0 0 1em; }
 .pull { font-size: 1.35rem; line-height: 1.5; font-style: italic; border-left: 4px solid var(--filter); padding-left: 18px; margin: 28px 0; max-width: 36rem; }
 
+/* money properties */
+.truth { max-width: 46rem; margin: 32px 0; padding: 24px 26px; border: 2px solid var(--filter); border-radius: 14px; background: color-mix(in srgb, var(--filter) 8%, transparent); }
+.truth-label { font: 700 .95rem var(--sans); color: var(--filter); margin: 0 0 8px; }
+.truth-text { font: 600 1.3rem/1.45 var(--serif); margin: 0; }
+ol.props { list-style: none; padding: 0; margin: 32px 0; counter-reset: pr; display: grid; gap: 28px 44px; grid-template-columns: 1fr; }
+@media (min-width: 820px) { ol.props { grid-template-columns: 1fr 1fr; } }
+ol.props li { counter-increment: pr; position: relative; padding-left: 3.1rem; }
+ol.props li::before { content: counter(pr); position: absolute; left: 0; top: -2px; font: 850 1.9rem/1 var(--sans); font-stretch: 125%; color: var(--ink-soft); }
+ol.props li:last-child { grid-column: 1 / -1; border-top: 4px solid var(--filter); padding-top: 16px; max-width: 46rem; }
+ol.props li:last-child::before { color: var(--filter); top: 14px; }
+ol.props p { font-size: 1.05rem; margin: 0; }
+.protects { font: 600 .9rem/1.4 var(--sans); color: var(--ink-soft); margin: 10px 0 0; }
+.protects a { color: var(--filter); text-decoration: none; }
+.protects a:hover { text-decoration: underline; }
+
 /* routes table */
 .table-scroll { overflow-x: auto; margin-top: 24px; }
 table { border-collapse: collapse; width: 100%; min-width: 640px; font: .98rem/1.45 var(--sans); }
@@ -146,6 +161,7 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
 <div class="wrap">
   <header class="bar">
     <nav aria-label="Sections">
+      <a href="#money">Why it's money</a>
       <a href="#routes">How it gets in</a>
       <a href="#levers">How we stop it</a>
       <a href="#objections">Objections</a>
@@ -158,7 +174,7 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
     <div class="hero">
       <div>
         <h1>Bitcoin Spam<span class="quiet">Why we can stop it</span></h1>
-        <p class="lede">Bitcoin blocks are being filled with pictures, tokens and arbitrary files that pay for space meant for money. That isn't a law of nature. It's the result of choices, and different choices push it back out.</p>
+        <p class="lede">Bitcoin is money only because enough people keep choosing it as money. Pictures, tokens and arbitrary files in its blocks wear down the properties behind that choice. Spam isn't inevitable. It's the result of choices, and different choices push it back out.</p>
       </div>
 
       <figure class="block" aria-labelledby="block-cap">
@@ -179,12 +195,39 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
       </figure>
     </div>
 
+    <section id="money">
+      <div class="col">
+        <h2>Bitcoin is money only because people use it as money</h2>
+        <p>No one decreed that Bitcoin is money. It became money the way every money has: people found it useful for trading, more people accepted it because others did, and that network effect fed on itself. Its monetary role is an <em>emergent property</em>. It exists only as long as the qualities that created it stay intact.</p>
+      </div>
+      <div class="truth">
+        <p class="truth-label">The starting point for everything on this page</p>
+        <p class="truth-text">Bitcoin is money because of emergent properties, including network effects, that people keep choosing. Anything that weakens those properties weakens Bitcoin as money. Non-monetary data pulls the network in a different direction, and every argument here is measured against that.</p>
+      </div>
+      <div class="col">
+        <p>Economists usually list six properties that make something good money. Bitcoin adds a seventh that no earlier money could offer: <strong>immutability through decentralization</strong>. The ledger can't be rewritten because thousands of independent nodes each check every rule for themselves. Here is what embedded data does to each property.</p>
+      </div>
+      <ol class="props">
+        <li id="p-durability"><h3>Durability</h3><p>Money has to last. Bitcoin's ledger lasts because ordinary people can afford to keep a full copy. Data that permanently bloats the chain and the UTXO set raises that cost every year, for every node, forever.</p></li>
+        <li id="p-portability"><h3>Portability</h3><p>Money has to move easily. When blocks fill with images and token mints, fees rise for everyone and moving value gets slower and more expensive.</p></li>
+        <li id="p-divisibility"><h3>Divisibility</h3><p>Money has to split into small amounts. When spam pushes fees up, small amounts of bitcoin cost more to spend than they're worth. In practice the smallest usable unit gets bigger.</p></li>
+        <li id="p-uniformity"><h3>Uniformity</h3><p>Every unit of money should be as good as any other. Inscriptions and "rare sat" schemes label individual satoshis as collectibles. Wallets then have to track and avoid spending particular coins, which chips away at fungibility.</p></li>
+        <li id="p-scarcity"><h3>Scarcity</h3><p>The 21 million cap isn't touched directly. But blockspace, the scarce resource that lets people use the coins, gets spent on things that aren't payments. The cap is also only as secure as the nodes that enforce it (see the seventh property).</p></li>
+        <li id="p-acceptability"><h3>Acceptability</h3><p>Money is accepted because others accept it, and this is the network effect in action. High fees, a reputation as a file-sharing platform and legal risk from storing unknown files all give merchants, users and node operators reasons to walk away.</p></li>
+        <li id="p-immutability"><h3>Immutability through decentralization</h3><p>No one can rewrite history because no one controls enough of the network. Every cost spam adds (storage, bandwidth, legal exposure) pushes out smaller node operators first. Fewer, larger nodes mean a more centralized network and a weaker guarantee that the rules and history stay fixed.</p></li>
+      </ol>
+      <div class="col">
+        <p class="pull">Spam doesn't have to break Bitcoin to hurt it. It only has to make Bitcoin a little less useful as money, block after block, until people choose something else.</p>
+      </div>
+    </section>
+
     <section id="problem">
       <div class="col">
         <h2>Blockspace is for moving money</h2>
-        <p>Every Bitcoin node downloads, checks and relays every transaction. That shared cost is worth paying because the network does one job: settle payments without anyone's permission.</p>
+        <p>Every Bitcoin node downloads, checks and relays every transaction. That shared cost is worth paying because the network does one job: settle payments without anyone's permission. That job is where the network effect comes from.</p>
         <p>Since early 2023, a growing share of that space has gone to data that has nothing to do with payments. Images and text are written into the witness of Taproot transactions. Token "mints" repeat the same few bytes thousands of times. Some schemes hide files inside fake public keys that can never be spent, so every node has to hold them in memory for good.</p>
-        <p>The usual response is a shrug: data is just data, it pays fees, filters don't work, get over it. This site argues the opposite. Spam is an economic behaviour, and economic behaviour responds to cost, friction and rules. Bitcoin has changed all three before.</p>
+        <p>The usual response is a shrug: data is just data, it pays fees, filters don't work, get over it. That view treats Bitcoin as a neutral database. But Bitcoin isn't valuable as a database. It's valuable as money, and uses that compete with money erode the properties that made it money in the first place.</p>
+        <p>Spam is an economic behaviour, and economic behaviour responds to cost, friction and rules. Bitcoin has changed all three before.</p>
         <p class="pull">A transaction that pays a fee isn't automatically welcome. Nodes have always decided what they relay, and the protocol has always decided what is valid.</p>
       </div>
     </section>
@@ -195,9 +238,9 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
         <p>There are three main routes for stuffing non-payment data into Bitcoin. They don't all cost the network the same, and they don't all need the same fix.</p>
       </div>
       <div class="table-scroll">
-        <table>
+        <table style="min-width:820px">
           <thead>
-            <tr><th scope="col">Route</th><th scope="col">How it works</th><th scope="col">Cost to the network</th><th scope="col">Fee discount</th></tr>
+            <tr><th scope="col">Route</th><th scope="col">How it works</th><th scope="col">Cost to the network</th><th scope="col">Fee discount</th><th scope="col">Properties eroded</th></tr>
           </thead>
           <tbody>
             <tr>
@@ -205,18 +248,21 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
               <td>Data goes in an output marked provably unspendable.</td>
               <td>Stored in the chain but kept out of the UTXO set. Easy to prune.</td>
               <td><span class="tag ok">None, full price</span></td>
+              <td>Durability, when the limit is lifted</td>
             </tr>
             <tr>
               <td>Witness envelopes</td>
               <td>Data is wrapped in a never-executed <code>OP_FALSE OP_IF … OP_ENDIF</code> block inside a Taproot script. This is how inscriptions work.</td>
               <td>Enlarges blocks up to nearly 4 MB and adds bandwidth and storage for every full node.</td>
               <td><span class="tag">75% off</span></td>
+              <td>Portability, divisibility, uniformity, immutability through decentralization</td>
             </tr>
             <tr>
               <td>Fake keys and outputs</td>
               <td>Data is disguised as public keys in multisig or other outputs, as in "stamps". Nobody can ever spend them.</td>
               <td>The worst case: unspendable junk sits in the UTXO set that every node keeps in fast storage, forever.</td>
               <td><span class="tag ok">None, full price</span></td>
+              <td>Durability, immutability through decentralization</td>
             </tr>
           </tbody>
         </table>
@@ -252,28 +298,32 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
     <section id="levers">
       <div class="col">
         <h2>Four levers that actually work</h2>
-        <p>None of these makes spam impossible on its own. Together they make it expensive, slow, socially marked and eventually invalid. That's how every other abuse of the network has been handled.</p>
+        <p>None of these makes spam impossible on its own. Together they make it expensive, slow, socially marked and eventually invalid. That's how every other abuse of the network has been handled. Each one protects specific <a href="#money">properties of money</a>.</p>
       </div>
       <div class="levers">
         <div class="lever">
           <p class="who">Node runners</p>
           <h3>Refuse to relay it</h3>
           <p>Mempool policy is local. Each node decides what it passes on, and spam that can't reach miners through the public network has to be sent through private deals instead. Bitcoin Knots keeps data-carrier limits and offers filters for inscriptions and other data patterns. Its share of reachable nodes grew sharply through 2025. Every filtering node narrows the path.</p>
+          <p class="protects">Protects: <a href="#p-immutability">immutability through decentralization</a>, <a href="#p-durability">durability</a></p>
         </div>
         <div class="lever">
           <p class="who">Miners and pools</p>
           <h3>Build cleaner block templates</h3>
           <p>Miners aren't obliged to include every transaction that pays. Protocols like DATUM, used by the OCEAN pool, let individual miners build their own templates with their own filters instead of taking whatever the pool sends. Hashrate that refuses spam pushes it into slower, pricier channels.</p>
+          <p class="protects">Protects: <a href="#p-portability">portability</a>, <a href="#p-divisibility">divisibility</a></p>
         </div>
         <div class="lever">
           <p class="who">Developers</p>
           <h3>Close the loophole at consensus</h3>
           <p>Policy nudges. Consensus decides. A soft fork can make data envelopes and oversized pushes invalid, just as earlier soft forks tightened script rules. In late 2025 a time-limited soft fork was proposed to cap output script and data push sizes. Whether or not that specific design wins, it shows the fix can be written, reviewed and activated.</p>
+          <p class="protects">Protects: <a href="#p-durability">durability</a>, <a href="#p-uniformity">uniformity</a>, <a href="#p-scarcity">scarcity</a></p>
         </div>
         <div class="lever">
           <p class="who">Everyone</p>
           <h3>Remove the incentive</h3>
-          <p>Spam booms follow speculation: token launches, "rare" sats, marketplace hype. When wallets, exchanges and services decline to support these schemes, the resale market thins and so does demand for blockspace. Nobody pays a premium to publish where no one will list it.</p>
+          <p>Spam booms follow speculation: token launches, "rare" sats, marketplace hype. When wallets, exchanges and services decline to support these schemes, the resale market thins and so does demand for blockspace. Nobody pays a premium to publish where no one will list it. The network effect that matters is the one around money, and it grows when that is what Bitcoin is known for.</p>
+          <p class="protects">Protects: <a href="#p-acceptability">acceptability</a>, <a href="#p-uniformity">uniformity</a></p>
         </div>
       </div>
     </section>
@@ -284,14 +334,14 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
         <p>Bitcoin's history is full of anti-spam rules that people said wouldn't work.</p>
         <p>In 2010 Satoshi added the 1 MB block size limit, a blunt consensus rule written explicitly to stop the chain being flooded. Nodes have long refused to relay non-standard scripts, and that standardness policy is why most exotic junk never got mined.</p>
         <p>In 2013 Bitcoin Core 0.8.2 introduced a dust limit after gambling services filled blocks with tiny outputs. It wasn't perfect, but it changed behaviour and ended the worst of it.</p>
-        <p>The OP_RETURN limit itself was a compromise: give people who insist on embedding data a small, prunable place to do it, and keep them out of the UTXO set. The lesson every time was the same. Rules shape behaviour, even when they aren't airtight.</p>
+        <p>The OP_RETURN limit itself was a compromise: give people who insist on embedding data a small, prunable place to do it, and keep them out of the UTXO set. The lesson every time was the same. Rules shape behaviour, even when they aren't airtight. And each rule protected the network's use as money over some other use someone wanted to make of it.</p>
       </div>
     </section>
 
     <section id="objections">
       <div class="col">
         <h2>The strongest objections, answered</h2>
-        <p>These are the arguments you hear most often for giving up. Each one has an answer.</p>
+        <p>These are the arguments you hear most often for giving up. Each answer comes back to the same test: does this help or hurt the properties that make Bitcoin money?</p>
       </div>
       <details>
         <summary><span class="claim">"Filters don't work. Spammers just go straight to miners."</span>Some do, and that proves the filter is working.</summary>
@@ -303,22 +353,22 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
       </details>
       <details>
         <summary><span class="claim">"If you block one method, they'll hide data somewhere worse, like fake keys."</span>That argument never ends, so it can't justify doing nothing.</summary>
-        <div class="col"><p>Every route has a different price. Fake-key schemes pay full weight with no witness discount, so they cost much more per byte. The goal isn't to reach zero. It's to remove the discount and the convenience, so that storing data on Bitcoin costs what it really costs the network. Worse routes can be addressed next, one at a time, as with every past rule.</p></div>
+        <div class="col"><p>Every route has a different price. Fake-key schemes pay full weight with no witness discount, so they cost much more per byte. The goal isn't to reach zero, and it isn't to win an arms race. It's to remove the discount and the convenience, so that storing data on Bitcoin costs what it really costs the network. Worse routes can be addressed next, one at a time, as with every past rule.</p></div>
       </details>
       <details>
         <summary><span class="claim">"Bitcoin is permissionless. Who decides what counts as spam?"</span>Everyone running a node already does, every day.</summary>
-        <div class="col"><p>Permissionless means nobody can stop you owning or sending bitcoin. It has never meant every node must store whatever anyone wants. Standardness rules, dust limits and script limits all draw lines. Drawing one around data that is plainly not a payment isn't censorship. It's the same judgement the network has always exercised.</p></div>
+        <div class="col"><p>Permissionless means nobody can stop you owning or sending bitcoin. It has never meant every node must store whatever anyone wants. Standardness rules, dust limits and script limits all draw lines. Drawing one around data that is plainly not a payment isn't censorship. It's the same judgement the network has always exercised. Permissionless money depends on <a href="#p-immutability">decentralization</a>, and a chain that only well-funded operators can afford to run isn't permissionless for long.</p></div>
       </details>
       <details>
         <summary><span class="claim">"Spam pays fees, and miners need fees once the subsidy shrinks."</span>Payments pay fees too, and they're the demand that lasts.</summary>
-        <div class="col"><p>Speculative data markets come in waves and vanish between them, which makes them a poor base for long-term security. Worse, they price out ordinary users, who then leave for custodial services. A fee market built on people actually using Bitcoin as money is the one worth protecting.</p></div>
+        <div class="col"><p>Speculative data markets come in waves and vanish between them, which makes them a poor base for long-term security. Worse, they price out ordinary users, who then leave for custodial services. A fee market built on people actually using Bitcoin as money is the one worth protecting. Security paid for by collectibles while the <a href="#p-acceptability">network effect around money</a> shrinks is a bad trade.</p></div>
       </details>
     </section>
 
     <section id="act">
       <div class="col">
         <h2>What you can do this week</h2>
-        <p>Start with the first step and go as far as you're comfortable.</p>
+        <p>Money is emergent. It exists because many people make the same choice, so your choices count. Start with the first step and go as far as you're comfortable.</p>
       </div>
       <ol class="steps">
         <li><h3>Run your own node</h3><p>Without one, you don't get a say in relay policy at all. A spare computer and an external drive are enough.</p></li>
