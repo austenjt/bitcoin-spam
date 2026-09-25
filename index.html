@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bitcoin Spam: Why We Can Stop It</title>
+<meta name="description" content="Arbitrary data is crowding payments out of Bitcoin blocks. It isn't inevitable. Here is how node runners, miners and developers can push it back out.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #eef1ec;
+  --paper-2: #e2e7e0;
+  --ink: #1b2a2f;
+  --ink-soft: #4a5a5f;
+  --rule: #c5cec6;
+  --pay: #d98a0b;
+  --spam: #b3405c;
+  --filter: #2a7a70;
+  --empty: #d3dad2;
+  --serif: "Source Serif 4", Georgia, serif;
+  --sans: "Archivo", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #141d20; --paper-2: #1c282c; --ink: #e4eae3; --ink-soft: #9fb0ab;
+    --rule: #2f3e42; --pay: #f0a52a; --spam: #de6a87; --filter: #4fb3a5; --empty: #25343a;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #141d20; --paper-2: #1c282c; --ink: #e4eae3; --ink-soft: #9fb0ab;
+  --rule: #2f3e42; --pay: #f0a52a; --spam: #de6a87; --filter: #4fb3a5; --empty: #25343a;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 1.125rem/1.7 var(--serif);
+  font-optical-sizing: auto;
+}
+a { color: inherit; text-decoration-color: var(--filter); text-underline-offset: .18em; text-decoration-thickness: 2px; }
+a:hover { color: var(--filter); }
+:focus-visible { outline: 3px solid var(--filter); outline-offset: 3px; border-radius: 2px; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+.col { max-width: 40rem; }
+
+/* top bar */
+.bar { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; font-family: var(--sans); font-size: .95rem; }
+.bar nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.bar nav a { text-decoration: none; color: var(--ink-soft); }
+.bar nav a:hover { color: var(--ink); }
+.theme { background: none; border: 1px solid var(--rule); color: var(--ink); font: inherit; padding: 4px 10px; border-radius: 99px; cursor: pointer; }
+
+/* hero */
+.hero { padding: 48px 0 32px; display: grid; gap: 40px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .hero { grid-template-columns: 1.05fr 1fr; align-items: center; padding-top: 72px; } }
+h1 {
+  font-family: var(--sans); font-weight: 850; font-stretch: 125%;
+  font-size: clamp(2.6rem, 7vw, 4.9rem); line-height: .92; letter-spacing: -.02em; margin: 0 0 24px;
+}
+h1 .quiet { display: block; font-weight: 400; font-stretch: 62%; font-size: .62em; letter-spacing: 0; line-height: 1.05; margin-top: .25em; color: var(--filter); }
+.lede { font-size: 1.3rem; line-height: 1.55; max-width: 34rem; margin: 0; }
+
+/* block visual */
+.block { background: var(--paper-2); border-radius: 14px; padding: 20px; }
+.block-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-family: var(--sans); margin-bottom: 14px; flex-wrap: wrap; }
+.block-head strong { font-stretch: 112%; font-weight: 750; }
+.switch { display: inline-flex; border: 1px solid var(--rule); border-radius: 99px; padding: 3px; }
+.switch button { font: 600 .9rem var(--sans); border: 0; background: none; color: var(--ink-soft); padding: 6px 12px; border-radius: 99px; cursor: pointer; }
+.switch button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.grid { display: grid; grid-template-columns: repeat(25, 1fr); gap: 3px; }
+.grid span { aspect-ratio: 1; border-radius: 2px; background: var(--empty); transition: background-color .5s ease, transform .5s ease; }
+.grid span.p { background: var(--pay); }
+.grid span.s { background: var(--spam); }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; font: .9rem/1.3 var(--sans); margin-top: 14px; color: var(--ink-soft); }
+.legend i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.readout { font: 500 .95rem/1.45 var(--sans); margin: 12px 0 0; min-height: 2.9em; }
+@media (prefers-reduced-motion: reduce) { .grid span { transition: none; } }
+
+/* sections */
+section { padding: 56px 0; border-top: 1px solid var(--rule); }
+h2 { font-family: var(--sans); font-weight: 800; font-stretch: 110%; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.05; letter-spacing: -.01em; margin: 0 0 20px; max-width: 22ch; }
+h3 { font-family: var(--sans); font-weight: 700; font-stretch: 100%; font-size: 1.2rem; line-height: 1.25; margin: 0 0 8px; }
+p { margin: 0 0 1em; }
+.pull { font-size: 1.35rem; line-height: 1.5; font-style: italic; border-left: 4px solid var(--filter); padding-left: 18px; margin: 28px 0; max-width: 36rem; }
+
+/* routes table */
+.table-scroll { overflow-x: auto; margin-top: 24px; }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font: .98rem/1.45 var(--sans); }
+th, td { text-align: left; padding: 14px 16px 14px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 700; color: var(--ink-soft); font-size: .9rem; }
+td:first-child { font-weight: 700; white-space: nowrap; }
+.tag { display: inline-block; font-size: .82rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: color-mix(in srgb, var(--spam) 16%, transparent); color: var(--spam); }
+.tag.ok { background: color-mix(in srgb, var(--filter) 16%, transparent); color: var(--filter); }
+
+/* calculator */
+.calc { display: grid; gap: 28px; grid-template-columns: 1fr; margin-top: 28px; background: var(--paper-2); border-radius: 14px; padding: 24px; }
+@media (min-width: 820px) { .calc { grid-template-columns: 1fr 1.2fr; } }
+.calc label { display: block; font: 600 .95rem var(--sans); margin-bottom: 4px; }
+.calc output { font: 800 1.05rem var(--sans); font-stretch: 110%; }
+.calc input[type=range] { width: 100%; accent-color: var(--filter); margin: 6px 0 20px; }
+.bars { display: grid; gap: 16px; font-family: var(--sans); }
+.bars .row { display: grid; gap: 6px; }
+.bars .row div { display: flex; justify-content: space-between; gap: 12px; font-size: .95rem; }
+.bars .track { height: 18px; background: var(--empty); border-radius: 4px; overflow: hidden; }
+.bars .fill { height: 100%; border-radius: 4px; transition: width .3s ease; }
+.bars .fill.a { background: var(--ink-soft); }
+.bars .fill.b { background: var(--spam); }
+.calc .note { font: .95rem/1.5 var(--serif); color: var(--ink-soft); margin: 4px 0 0; }
+
+/* levers */
+.levers { display: grid; gap: 36px 48px; grid-template-columns: 1fr; margin-top: 32px; }
+@media (min-width: 820px) { .levers { grid-template-columns: 1fr 1fr; } }
+.lever { border-top: 4px solid var(--filter); padding-top: 14px; }
+.lever p { font-size: 1.05rem; }
+.lever .who { font: 600 .9rem var(--sans); color: var(--filter); margin-bottom: 6px; }
+
+/* myths */
+details { border-bottom: 1px solid var(--rule); max-width: 46rem; }
+summary { cursor: pointer; list-style: none; padding: 18px 36px 18px 0; position: relative; font: 700 1.15rem/1.35 var(--sans); }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; position: absolute; right: 4px; top: 14px; font: 400 1.6rem var(--sans); color: var(--filter); transition: transform .2s ease; }
+details[open] summary::after { transform: rotate(45deg); }
+details > div { padding: 0 0 18px; }
+summary .claim { display: block; font-weight: 400; font-stretch: 85%; color: var(--ink-soft); font-size: .95rem; margin-bottom: 2px; }
+
+/* steps */
+ol.steps { list-style: none; padding: 0; margin: 28px 0 0; counter-reset: s; max-width: 46rem; }
+ol.steps li { counter-increment: s; display: grid; grid-template-columns: 3rem 1fr; gap: 0 12px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+ol.steps li::before { content: counter(s); font: 850 2rem/1 var(--sans); font-stretch: 125%; color: var(--filter); grid-row: span 2; }
+ol.steps h3 { margin: 2px 0 4px; }
+ol.steps p { margin: 0; font-size: 1.05rem; }
+code { font: .9em ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+
+/* sources + footer */
+.sources { columns: 2 18rem; column-gap: 40px; font: .98rem/1.5 var(--sans); padding-left: 1.1em; }
+.sources li { margin-bottom: 10px; break-inside: avoid; }
+footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1.6 var(--sans); color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <nav aria-label="Sections">
+      <a href="#routes">How it gets in</a>
+      <a href="#levers">How we stop it</a>
+      <a href="#objections">Objections</a>
+      <a href="#act">What to do</a>
+    </nav>
+    <button class="theme" id="theme" type="button" aria-label="Switch colour theme">Theme</button>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1>Bitcoin Spam<span class="quiet">Why we can stop it</span></h1>
+        <p class="lede">Bitcoin blocks are being filled with pictures, tokens and arbitrary files that pay for space meant for money. That isn't a law of nature. It's the result of choices, and different choices push it back out.</p>
+      </div>
+
+      <figure class="block" aria-labelledby="block-cap">
+        <div class="block-head">
+          <strong id="block-cap">One block, 4 million weight units</strong>
+          <div class="switch" role="group" aria-label="Block contents">
+            <button type="button" id="b-now" aria-pressed="true">Unfiltered</button>
+            <button type="button" id="b-fix" aria-pressed="false">Filtered</button>
+          </div>
+        </div>
+        <div class="grid" id="grid" aria-hidden="true"></div>
+        <div class="legend">
+          <span><i style="background:var(--pay)"></i>Payments</span>
+          <span><i style="background:var(--spam)"></i>Embedded data</span>
+          <span><i style="background:var(--empty)"></i>Room for more payments</span>
+        </div>
+        <p class="readout" id="readout" aria-live="polite"></p>
+      </figure>
+    </div>
+
+    <section id="problem">
+      <div class="col">
+        <h2>Blockspace is for moving money</h2>
+        <p>Every Bitcoin node downloads, checks and relays every transaction. That shared cost is worth paying because the network does one job: settle payments without anyone's permission.</p>
+        <p>Since early 2023, a growing share of that space has gone to data that has nothing to do with payments. Images and text are written into the witness of Taproot transactions. Token "mints" repeat the same few bytes thousands of times. Some schemes hide files inside fake public keys that can never be spent, so every node has to hold them in memory for good.</p>
+        <p>The usual response is a shrug: data is just data, it pays fees, filters don't work, get over it. This site argues the opposite. Spam is an economic behaviour, and economic behaviour responds to cost, friction and rules. Bitcoin has changed all three before.</p>
+        <p class="pull">A transaction that pays a fee isn't automatically welcome. Nodes have always decided what they relay, and the protocol has always decided what is valid.</p>
+      </div>
+    </section>
+
+    <section id="routes">
+      <div class="col">
+        <h2>How data gets in</h2>
+        <p>There are three main routes for stuffing non-payment data into Bitcoin. They don't all cost the network the same, and they don't all need the same fix.</p>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr><th scope="col">Route</th><th scope="col">How it works</th><th scope="col">Cost to the network</th><th scope="col">Fee discount</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>OP_RETURN outputs</td>
+              <td>Data goes in an output marked provably unspendable.</td>
+              <td>Stored in the chain but kept out of the UTXO set. Easy to prune.</td>
+              <td><span class="tag ok">None, full price</span></td>
+            </tr>
+            <tr>
+              <td>Witness envelopes</td>
+              <td>Data is wrapped in a never-executed <code>OP_FALSE OP_IF … OP_ENDIF</code> block inside a Taproot script. This is how inscriptions work.</td>
+              <td>Enlarges blocks up to nearly 4 MB and adds bandwidth and storage for every full node.</td>
+              <td><span class="tag">75% off</span></td>
+            </tr>
+            <tr>
+              <td>Fake keys and outputs</td>
+              <td>Data is disguised as public keys in multisig or other outputs, as in "stamps". Nobody can ever spend them.</td>
+              <td>The worst case: unspendable junk sits in the UTXO set that every node keeps in fast storage, forever.</td>
+              <td><span class="tag ok">None, full price</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col" style="margin-top:40px">
+        <h3>The discount is the real subsidy</h3>
+        <p>SegWit counts witness bytes at a quarter of the weight of other bytes. That discount was designed to make spending coins cheaper than creating new outputs, which keeps the UTXO set small. It was never meant to make JPEGs cheaper than payments. Move the sliders to see what it does to the price of storing a file.</p>
+      </div>
+
+      <div class="calc">
+        <div>
+          <label for="kb">File size: <output id="kb-out">100 KB</output></label>
+          <input type="range" id="kb" min="1" max="390" value="100">
+          <label for="fee">Fee rate: <output id="fee-out">10 sat/vB</output></label>
+          <input type="range" id="fee" min="1" max="200" value="10">
+          <p class="note">This is a simplified estimate that ignores the small transaction overhead. Data in an OP_RETURN costs 1 vbyte per byte; data in a witness costs a quarter of a vbyte per byte.</p>
+        </div>
+        <div class="bars" aria-live="polite">
+          <div class="row">
+            <div><span>Paying full price</span><strong id="c-full"></strong></div>
+            <div class="track"><div class="fill a" id="f-full" style="width:100%"></div></div>
+          </div>
+          <div class="row">
+            <div><span>As an inscription</span><strong id="c-wit"></strong></div>
+            <div class="track"><div class="fill b" id="f-wit" style="width:25%"></div></div>
+          </div>
+          <p class="note" id="c-save"></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="levers">
+      <div class="col">
+        <h2>Four levers that actually work</h2>
+        <p>None of these makes spam impossible on its own. Together they make it expensive, slow, socially marked and eventually invalid. That's how every other abuse of the network has been handled.</p>
+      </div>
+      <div class="levers">
+        <div class="lever">
+          <p class="who">Node runners</p>
+          <h3>Refuse to relay it</h3>
+          <p>Mempool policy is local. Each node decides what it passes on, and spam that can't reach miners through the public network has to be sent through private deals instead. Bitcoin Knots keeps data-carrier limits and offers filters for inscriptions and other data patterns. Its share of reachable nodes grew sharply through 2025. Every filtering node narrows the path.</p>
+        </div>
+        <div class="lever">
+          <p class="who">Miners and pools</p>
+          <h3>Build cleaner block templates</h3>
+          <p>Miners aren't obliged to include every transaction that pays. Protocols like DATUM, used by the OCEAN pool, let individual miners build their own templates with their own filters instead of taking whatever the pool sends. Hashrate that refuses spam pushes it into slower, pricier channels.</p>
+        </div>
+        <div class="lever">
+          <p class="who">Developers</p>
+          <h3>Close the loophole at consensus</h3>
+          <p>Policy nudges. Consensus decides. A soft fork can make data envelopes and oversized pushes invalid, just as earlier soft forks tightened script rules. In late 2025 a time-limited soft fork was proposed to cap output script and data push sizes. Whether or not that specific design wins, it shows the fix can be written, reviewed and activated.</p>
+        </div>
+        <div class="lever">
+          <p class="who">Everyone</p>
+          <h3>Remove the incentive</h3>
+          <p>Spam booms follow speculation: token launches, "rare" sats, marketplace hype. When wallets, exchanges and services decline to support these schemes, the resale market thins and so does demand for blockspace. Nobody pays a premium to publish where no one will list it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="history">
+      <div class="col">
+        <h2>We've done this before</h2>
+        <p>Bitcoin's history is full of anti-spam rules that people said wouldn't work.</p>
+        <p>In 2010 Satoshi added the 1 MB block size limit, a blunt consensus rule written explicitly to stop the chain being flooded. Nodes have long refused to relay non-standard scripts, and that standardness policy is why most exotic junk never got mined.</p>
+        <p>In 2013 Bitcoin Core 0.8.2 introduced a dust limit after gambling services filled blocks with tiny outputs. It wasn't perfect, but it changed behaviour and ended the worst of it.</p>
+        <p>The OP_RETURN limit itself was a compromise: give people who insist on embedding data a small, prunable place to do it, and keep them out of the UTXO set. The lesson every time was the same. Rules shape behaviour, even when they aren't airtight.</p>
+      </div>
+    </section>
+
+    <section id="objections">
+      <div class="col">
+        <h2>The strongest objections, answered</h2>
+        <p>These are the arguments you hear most often for giving up. Each one has an answer.</p>
+      </div>
+      <details>
+        <summary><span class="claim">"Filters don't work. Spammers just go straight to miners."</span>Some do, and that proves the filter is working.</summary>
+        <div class="col"><p>Direct submission services exist precisely because filtered nodes make public relay unreliable. That route costs more, depends on a few cooperating pools and shows exactly who is mining spam. A filter doesn't need to catch 100% to matter. Spam filters in email never did either, and nobody concludes we should turn them off.</p></div>
+      </details>
+      <details>
+        <summary><span class="claim">"Filtering hurts fee estimation and block propagation."</span>A real cost, but small, and it shrinks as consensus rules catch up.</summary>
+        <div class="col"><p>A node that hasn't seen a transaction must fetch it when a block arrives, which slows compact block relay slightly. In practice the delay is measured in milliseconds, and it matters most when policy and consensus disagree. The lasting fix is to make the rules agree: tighten consensus so that honest nodes and miners have nothing to disagree about.</p></div>
+      </details>
+      <details>
+        <summary><span class="claim">"If you block one method, they'll hide data somewhere worse, like fake keys."</span>That argument never ends, so it can't justify doing nothing.</summary>
+        <div class="col"><p>Every route has a different price. Fake-key schemes pay full weight with no witness discount, so they cost much more per byte. The goal isn't to reach zero. It's to remove the discount and the convenience, so that storing data on Bitcoin costs what it really costs the network. Worse routes can be addressed next, one at a time, as with every past rule.</p></div>
+      </details>
+      <details>
+        <summary><span class="claim">"Bitcoin is permissionless. Who decides what counts as spam?"</span>Everyone running a node already does, every day.</summary>
+        <div class="col"><p>Permissionless means nobody can stop you owning or sending bitcoin. It has never meant every node must store whatever anyone wants. Standardness rules, dust limits and script limits all draw lines. Drawing one around data that is plainly not a payment isn't censorship. It's the same judgement the network has always exercised.</p></div>
+      </details>
+      <details>
+        <summary><span class="claim">"Spam pays fees, and miners need fees once the subsidy shrinks."</span>Payments pay fees too, and they're the demand that lasts.</summary>
+        <div class="col"><p>Speculative data markets come in waves and vanish between them, which makes them a poor base for long-term security. Worse, they price out ordinary users, who then leave for custodial services. A fee market built on people actually using Bitcoin as money is the one worth protecting.</p></div>
+      </details>
+    </section>
+
+    <section id="act">
+      <div class="col">
+        <h2>What you can do this week</h2>
+        <p>Start with the first step and go as far as you're comfortable.</p>
+      </div>
+      <ol class="steps">
+        <li><h3>Run your own node</h3><p>Without one, you don't get a say in relay policy at all. A spare computer and an external drive are enough.</p></li>
+        <li><h3>Set a filtering policy</h3><p>Run Bitcoin Knots, or keep a conservative <code>datacarriersize</code> on the node software you use. Check which options your version supports before relying on them.</p></li>
+        <li><h3>Choose where your hashrate goes</h3><p>If you mine, pick a pool that lets you build your own templates or publicly filters spam.</p></li>
+        <li><h3>Support the fix in review</h3><p>Read soft fork proposals, test them, and give specific feedback on the mailing list and in pull requests. Constructive review moves proposals faster than anger does.</p></li>
+        <li><h3>Stop funding the market</h3><p>Ask your wallet and exchange whether they support inscription and token trading, and move your business if their answer bothers you.</p></li>
+      </ol>
+    </section>
+
+    <section id="sources">
+      <div class="col">
+        <h2>Read further</h2>
+        <p>Check these primary sources yourself and form your own view.</p>
+      </div>
+      <ul class="sources">
+        <li><a href="https://bitcoinknots.org/">Bitcoin Knots</a>: node software with spam filtering options</li>
+        <li><a href="https://github.com/bitcoin/bitcoin">Bitcoin Core</a> source and release notes, including OP_RETURN policy changes</li>
+        <li><a href="https://github.com/bitcoin/bips">Bitcoin Improvement Proposals</a>, including SegWit (BIP 141) and soft fork proposals</li>
+        <li><a href="https://ocean.xyz/">OCEAN</a> and the DATUM protocol for miner-built block templates</li>
+        <li><a href="https://docs.ordinals.com/">Ordinals documentation</a> describing how inscription envelopes work</li>
+        <li><a href="https://groups.google.com/g/bitcoindev">bitcoindev mailing list</a>, where protocol changes are debated</li>
+        <li><a href="https://stephanlivera.github.io/Bitcoin-Spam/">Bitcoin Spam</a> by Stephan Livera, which argues the other side</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>An independent explainer. Nothing here is financial advice. Corrections are welcome as <a href="https://github.com/austenjt/bitcoin-spam/issues">GitHub issues</a>.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  // Theme toggle
+  var root = document.documentElement, btn = document.getElementById('theme');
+  try { var saved = localStorage.getItem('theme'); if (saved) root.dataset.theme = saved; } catch (e) {}
+  btn.addEventListener('click', function () {
+    var dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+  });
+
+  // Block grid: 400 cells, each ~10,000 WU. Illustrative proportions.
+  var grid = document.getElementById('grid'), readout = document.getElementById('readout');
+  var N = 400, cells = [];
+  var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  var order = [];
+  for (var i = 0; i < N; i++) { var c = document.createElement('span'); grid.appendChild(c); cells.push(c); order.push(i); }
+  for (i = N - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)); var t = order[i]; order[i] = order[j]; order[j] = t; }
+  var states = {
+    now: { pay: 0.42, spam: 0.58, text: 'Illustration: in heavy inscription periods, well over half of a block\'s weight can be embedded data.' },
+    fix: { pay: 0.78, spam: 0.02, text: 'With filters and closed loopholes, that weight goes back to payments, or stays free and keeps fees low.' }
+  };
+  function render(key) {
+    var s = states[key], nPay = Math.round(N * s.pay), nSpam = Math.round(N * s.spam);
+    order.forEach(function (idx, k) {
+      cells[idx].className = k < nPay ? 'p' : (k < nPay + nSpam ? 's' : '');
+    });
+    readout.textContent = s.text;
+    document.getElementById('b-now').setAttribute('aria-pressed', key === 'now');
+    document.getElementById('b-fix').setAttribute('aria-pressed', key === 'fix');
+  }
+  document.getElementById('b-now').onclick = function () { render('now'); };
+  document.getElementById('b-fix').onclick = function () { render('fix'); };
+  render('now');
+
+  // Fee calculator
+  var kb = document.getElementById('kb'), fee = document.getElementById('fee');
+  function fmt(sats) {
+    var s = sats.toLocaleString('en-US') + ' sats';
+    return sats >= 1e6 ? s + ' (' + (sats / 1e8).toFixed(4) + ' BTC)' : s;
+  }
+  function calc() {
+    var bytes = kb.value * 1000, rate = +fee.value;
+    document.getElementById('kb-out').textContent = kb.value + ' KB';
+    document.getElementById('fee-out').textContent = rate + ' sat/vB';
+    var full = bytes * rate, wit = Math.round(bytes / 4 * rate);
+    document.getElementById('c-full').textContent = fmt(full);
+    document.getElementById('c-wit').textContent = fmt(wit);
+    document.getElementById('c-save').textContent = 'The witness discount saves the spammer ' + fmt(full - wit) + ' on this file.';
+  }
+  kb.oninput = fee.oninput = calc; calc();
+})();
+</script>
+</body>
+</html>
