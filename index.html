@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bitcoin Spam: Why We Can Stop It</title>
-<meta name="description" content="Bitcoin is money because of emergent properties like network effects and decentralization. Non-monetary data erodes them. Here is how node runners, miners and developers can push it back out.">
+<title>Bitcoin Spam: Why We CAN Stop It</title>
+<meta name="description" content="Bitcoin is money because of emergent properties that come from people choosing it as money. Non-monetary uses can create properties that displace them. Spam results from the choices protocol rules allow, and rules can change.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,37 +49,37 @@ a:hover { color: var(--filter); }
 .col { max-width: 40rem; }
 
 /* top bar */
-.bar { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; font-family: var(--sans); font-size: .95rem; }
-.bar nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 0; font-family: var(--sans); font-size: .95rem; }
+.bar nav { display: flex; gap: .5rem 1.25rem; flex-wrap: wrap; }
 .bar nav a { text-decoration: none; color: var(--ink-soft); }
 .bar nav a:hover { color: var(--ink); }
-.theme { background: none; border: 1px solid var(--rule); color: var(--ink); font: inherit; padding: 4px 10px; border-radius: 99px; cursor: pointer; }
+.theme { background: none; border: 1px solid var(--rule); color: var(--ink); font: inherit; padding: 4px 10px; border-radius: 99px; cursor: pointer; flex-shrink: 0; }
+
+/* title case for all headings */
+h1, h2, h3, .viz-head strong { text-transform: capitalize; }
 
 /* hero */
-.hero { padding: 48px 0 32px; display: grid; gap: 40px; grid-template-columns: 1fr; }
-@media (min-width: 900px) { .hero { grid-template-columns: 1.05fr 1fr; align-items: center; padding-top: 72px; } }
+.hero { padding: 48px 0 40px; display: grid; gap: 40px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .hero { grid-template-columns: 1.1fr 1fr; align-items: start; padding-top: 72px; } }
 h1 {
   font-family: var(--sans); font-weight: 850; font-stretch: 125%;
   font-size: clamp(2.6rem, 7vw, 4.9rem); line-height: .92; letter-spacing: -.02em; margin: 0 0 24px;
 }
 h1 .quiet { display: block; font-weight: 400; font-stretch: 62%; font-size: .62em; letter-spacing: 0; line-height: 1.05; margin-top: .25em; color: var(--filter); }
-.lede { font-size: 1.3rem; line-height: 1.55; max-width: 34rem; margin: 0; }
+.lede { font-size: 1.2rem; line-height: 1.6; max-width: 36rem; margin: 0; }
 
-/* block visual */
-.block { background: var(--paper-2); border-radius: 14px; padding: 20px; }
-.block-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-family: var(--sans); margin-bottom: 14px; flex-wrap: wrap; }
-.block-head strong { font-stretch: 112%; font-weight: 750; }
-.switch { display: inline-flex; border: 1px solid var(--rule); border-radius: 99px; padding: 3px; }
-.switch button { font: 600 .9rem var(--sans); border: 0; background: none; color: var(--ink-soft); padding: 6px 12px; border-radius: 99px; cursor: pointer; }
+/* transaction size visual */
+.viz { background: var(--paper-2); border-radius: 14px; padding: 20px; margin: 0; }
+.viz-head { font-family: var(--sans); margin-bottom: 14px; }
+.viz-head strong { display: block; font-stretch: 112%; font-weight: 750; margin-bottom: 10px; }
+.switch { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 18px; padding: 3px; }
+.switch button { font: 600 .88rem var(--sans); border: 0; background: none; color: var(--ink-soft); padding: 6px 12px; border-radius: 99px; cursor: pointer; }
 .switch button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-.grid { display: grid; grid-template-columns: repeat(25, 1fr); gap: 3px; }
-.grid span { aspect-ratio: 1; border-radius: 2px; background: var(--empty); transition: background-color .5s ease, transform .5s ease; }
-.grid span.p { background: var(--pay); }
-.grid span.s { background: var(--spam); }
-.legend { display: flex; gap: 18px; flex-wrap: wrap; font: .9rem/1.3 var(--sans); margin-top: 14px; color: var(--ink-soft); }
-.legend i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
-.readout { font: 500 .95rem/1.45 var(--sans); margin: 12px 0 0; min-height: 2.9em; }
-@media (prefers-reduced-motion: reduce) { .grid span { transition: none; } }
+.viz svg { display: block; width: 100%; height: auto; }
+.viz rect { transition: fill .35s ease, stroke .35s ease; }
+.readout { font: 500 .95rem/1.5 var(--sans); margin: 12px 0 0; min-height: 4.5em; }
+.readout strong { font-stretch: 110%; }
+@media (prefers-reduced-motion: reduce) { .viz rect { transition: none; } }
 
 /* sections */
 section { padding: 56px 0; border-top: 1px solid var(--rule); }
@@ -88,13 +88,12 @@ h3 { font-family: var(--sans); font-weight: 700; font-stretch: 100%; font-size: 
 p { margin: 0 0 1em; }
 .pull { font-size: 1.35rem; line-height: 1.5; font-style: italic; border-left: 4px solid var(--filter); padding-left: 18px; margin: 28px 0; max-width: 36rem; }
 
-/* title case for all headings */
-h1, h2, h3, .block-head strong { text-transform: capitalize; }
-
-/* money properties */
+/* test box */
 .truth { max-width: 46rem; margin: 32px 0; padding: 24px 26px; border: 2px solid var(--filter); border-radius: 14px; background: color-mix(in srgb, var(--filter) 8%, transparent); }
 .truth-label { font: 700 .95rem var(--sans); color: var(--filter); margin: 0 0 8px; }
 .truth-text { font: 600 1.3rem/1.45 var(--serif); margin: 0; }
+
+/* money properties */
 ol.props { list-style: none; padding: 0; margin: 32px 0; counter-reset: pr; display: grid; gap: 28px 44px; grid-template-columns: 1fr; }
 @media (min-width: 820px) { ol.props { grid-template-columns: 1fr 1fr; } }
 ol.props li { counter-increment: pr; position: relative; padding-left: 3.1rem; }
@@ -102,17 +101,25 @@ ol.props li::before { content: counter(pr); position: absolute; left: 0; top: -2
 ol.props li:last-child { grid-column: 1 / -1; border-top: 4px solid var(--filter); padding-top: 16px; max-width: 46rem; }
 ol.props li:last-child::before { color: var(--filter); top: 14px; }
 ol.props p { font-size: 1.05rem; margin: 0; }
-.protects { font: 600 .9rem/1.4 var(--sans); color: var(--ink-soft); margin: 10px 0 0; }
-.protects a { color: var(--filter); text-decoration: none; }
-.protects a:hover { text-decoration: underline; }
+
+/* divergent pairs */
+.pairs { display: grid; gap: 0; margin-top: 28px; max-width: 58rem; }
+.pair { display: grid; grid-template-columns: 1fr; gap: 6px 32px; padding: 20px 0; border-bottom: 1px solid var(--rule); }
+.pair:first-child { border-top: 1px solid var(--rule); }
+@media (min-width: 760px) { .pair { grid-template-columns: 1fr 1fr; } }
+.pair h3 { color: var(--spam); }
+.pair p { font-size: 1.05rem; margin: 0; }
+.displaces { font: 600 .92rem/1.4 var(--sans); color: var(--ink-soft); margin: 0 0 6px; }
+.displaces a { color: var(--filter); text-decoration: none; }
+.displaces a:hover { text-decoration: underline; }
 
 /* routes table */
 .table-scroll { overflow-x: auto; margin-top: 24px; }
-table { border-collapse: collapse; width: 100%; min-width: 640px; font: .98rem/1.45 var(--sans); }
+table { border-collapse: collapse; width: 100%; min-width: 860px; font: .98rem/1.45 var(--sans); }
 th, td { text-align: left; padding: 14px 16px 14px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
 th { font-weight: 700; color: var(--ink-soft); font-size: .9rem; }
 td:first-child { font-weight: 700; white-space: nowrap; }
-.tag { display: inline-block; font-size: .82rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: color-mix(in srgb, var(--spam) 16%, transparent); color: var(--spam); }
+.tag { display: inline-block; font-size: .82rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: color-mix(in srgb, var(--spam) 16%, transparent); color: var(--spam); white-space: nowrap; }
 .tag.ok { background: color-mix(in srgb, var(--filter) 16%, transparent); color: var(--filter); }
 
 /* calculator */
@@ -123,9 +130,9 @@ td:first-child { font-weight: 700; white-space: nowrap; }
 .calc input[type=range] { width: 100%; accent-color: var(--filter); margin: 6px 0 20px; }
 .bars { display: grid; gap: 16px; font-family: var(--sans); }
 .bars .row { display: grid; gap: 6px; }
-.bars .row div { display: flex; justify-content: space-between; gap: 12px; font-size: .95rem; }
+.bars .row div { display: flex; justify-content: space-between; gap: 12px; font-size: .95rem; flex-wrap: wrap; }
 .bars .track { height: 18px; background: var(--empty); border-radius: 4px; overflow: hidden; }
-.bars .fill { height: 100%; border-radius: 4px; transition: width .3s ease; }
+.bars .fill { height: 100%; border-radius: 4px; }
 .bars .fill.a { background: var(--ink-soft); }
 .bars .fill.b { background: var(--spam); }
 .calc .note { font: .95rem/1.5 var(--serif); color: var(--ink-soft); margin: 4px 0 0; }
@@ -133,9 +140,21 @@ td:first-child { font-weight: 700; white-space: nowrap; }
 /* levers */
 .levers { display: grid; gap: 36px 48px; grid-template-columns: 1fr; margin-top: 32px; }
 @media (min-width: 820px) { .levers { grid-template-columns: 1fr 1fr; } }
-.lever { border-top: 4px solid var(--filter); padding-top: 14px; }
+.lever { border-top: 4px solid var(--rule); padding-top: 14px; }
+.lever.main { border-top-color: var(--filter); }
 .lever p { font-size: 1.05rem; }
 .lever .who { font: 600 .9rem var(--sans); color: var(--filter); margin-bottom: 6px; }
+.lever .can, .lever .cant { font-weight: 700; font-family: var(--sans); font-size: .95rem; }
+.protects { font: 600 .9rem/1.4 var(--sans); color: var(--ink-soft); margin: 10px 0 0; }
+.protects a { color: var(--filter); text-decoration: none; }
+.protects a:hover { text-decoration: underline; }
+
+/* timeline */
+ol.timeline { list-style: none; padding: 0; margin: 28px 0; max-width: 46rem; }
+ol.timeline li { display: grid; grid-template-columns: 4.2rem 1fr; gap: 0 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+ol.timeline time { font: 800 1.15rem/1.5 var(--sans); font-stretch: 110%; color: var(--filter); }
+ol.timeline p { margin: 0; font-size: 1.05rem; }
+ol.timeline li.away time { color: var(--spam); }
 
 /* myths */
 details { border-bottom: 1px solid var(--rule); max-width: 46rem; }
@@ -165,8 +184,9 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
   <header class="bar">
     <nav aria-label="Sections">
       <a href="#money">Why it's money</a>
+      <a href="#divergent">Divergent uses</a>
       <a href="#routes">How it gets in</a>
-      <a href="#levers">How we stop it</a>
+      <a href="#choices">Where choices are made</a>
       <a href="#objections">Objections</a>
       <a href="#act">What to do</a>
     </nav>
@@ -177,94 +197,119 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
     <div class="hero">
       <div>
         <h1>Bitcoin Spam<span class="quiet">Why We CAN Stop It</span></h1>
-        <p class="lede">Bitcoin is money only because enough people keep choosing it as money, and each choice strengthens its network effect. Pictures, tokens and arbitrary files in its blocks can erode the emergent properties that make that choice worthwhile, and proposed covenants would open new ways to use blockspace for things other than money. Spam isn't inevitable: node runners, miners and developers can refuse to relay it, refuse to mine it, decline to activate covenants, and change the rules so it no longer fits in a block.</p>
+        <p class="lede">Bitcoin has a network effect as money because users keep choosing it for the advantages it has over other monies. Pictures, tokens, non-monetary contracts and arbitrary file storage in its blocks can reduce the emergent monetary properties that come from those choices. Spam is neither inevitable nor unstoppable. It results from the choices that protocol rules allow, and different choices and protocol rules can move Bitcoin toward its role as money or away from it. Divergent uses can create non-monetary emergent properties that displace or override some of its monetary ones, so limiting them helps Bitcoin remain money.</p>
       </div>
 
-      <figure class="block" aria-labelledby="block-cap">
-        <div class="block-head">
-          <strong id="block-cap">One block, 4 million weight units</strong>
-          <div class="switch" role="group" aria-label="Block contents">
-            <button type="button" id="b-now" aria-pressed="true">Unfiltered</button>
-            <button type="button" id="b-fix" aria-pressed="false">Filtered</button>
+      <figure class="viz" aria-labelledby="viz-cap">
+        <div class="viz-head">
+          <strong id="viz-cap">How much one transaction can hold</strong>
+          <div class="switch" role="group" aria-label="Transaction size">
+            <button type="button" data-k="pay" aria-pressed="true">A typical payment</button>
+            <button type="button" data-k="std" aria-pressed="false">Largest relayed by default</button>
+            <button type="button" data-k="max" aria-pressed="false">Largest the rules allow</button>
           </div>
         </div>
-        <div class="grid" id="grid" aria-hidden="true"></div>
-        <div class="legend">
-          <span><i style="background:var(--pay)"></i>Payments</span>
-          <span><i style="background:var(--spam)"></i>Embedded data</span>
-          <span><i style="background:var(--empty)"></i>Room for more payments</span>
-        </div>
+        <svg viewBox="0 0 320 320" role="img" aria-label="Nested squares with areas proportional to transaction size">
+          <rect id="sq-max" x="10" y="10" width="300" height="300" rx="3" stroke-width="1.5"/>
+          <rect id="sq-std" x="10" y="215.1" width="94.9" height="94.9" rx="2" stroke-width="1.5"/>
+          <rect id="sq-pay" x="10" y="306.4" width="3.6" height="3.6" rx=".5" stroke-width=".5"/>
+        </svg>
         <p class="readout" id="readout" aria-live="polite"></p>
       </figure>
     </div>
 
     <section id="money">
       <div class="col">
-        <h2>Bitcoin is money only because people use it as money</h2>
-        <p>No one decreed that Bitcoin is money. It became money the way every money has: people found it useful for trading, more people accepted it because others did, and that network effect fed on itself. Its monetary role is an <em>emergent property</em>. It exists only as long as the qualities that created it stay intact.</p>
+        <h2>Bitcoin is money because people use it as money</h2>
+        <p>No one decreed that Bitcoin is money. It became money the way every money has: people found it useful for trade, more people accepted it because others did, and that network effect fed on itself. Its monetary role is an <em>emergent property</em>. It lasts as long as the qualities that produced it stay intact.</p>
       </div>
       <div class="truth">
-        <p class="truth-label">The starting point for everything on this page</p>
-        <p class="truth-text">Bitcoin is money because of emergent properties, including network effects, that people keep choosing. Anything that weakens those properties weakens Bitcoin as money. Non-monetary data pulls the network in a different direction, and every argument here is measured against that.</p>
+        <p class="truth-label">The test used throughout this page</p>
+        <p class="truth-text">Does a use of Bitcoin strengthen the emergent properties that make it money, or does it create non-monetary properties that displace them?</p>
       </div>
       <div class="col">
-        <p>Economists usually list six properties that make something good money. Bitcoin adds a seventh that no earlier money could offer: <strong>immutability through decentralization</strong>. The ledger can't be rewritten because thousands of independent nodes each check every rule for themselves. Here is what embedded data does to each property.</p>
+        <p>Economists usually list six properties that make something good money. Bitcoin adds a seventh that no earlier money could offer: <strong>immutability through decentralization</strong>. Here is each property, and how non-monetary use can affect it.</p>
       </div>
       <ol class="props">
-        <li id="p-durability"><h3>Durability</h3><p>Money has to last. Bitcoin's ledger lasts because ordinary people can afford to keep a full copy. Data that permanently bloats the chain and the UTXO set raises that cost every year, for every node, forever.</p></li>
-        <li id="p-portability"><h3>Portability</h3><p>Money has to move easily. When blocks fill with images and token mints, fees rise for everyone and moving value gets slower and more expensive.</p></li>
-        <li id="p-divisibility"><h3>Divisibility</h3><p>Money has to split into small amounts. When spam pushes fees up, small amounts of bitcoin cost more to spend than they're worth. In practice the smallest usable unit gets bigger.</p></li>
-        <li id="p-uniformity"><h3>Uniformity</h3><p>Every unit of money should be as good as any other. Inscriptions and "rare sat" schemes label individual satoshis as collectibles. Wallets then have to track and avoid spending particular coins, which chips away at fungibility.</p></li>
-        <li id="p-scarcity"><h3>Scarcity</h3><p>The 21 million cap isn't touched directly. But blockspace, the scarce resource that lets people use the coins, gets spent on things that aren't payments. The cap is also only as secure as the nodes that enforce it (see the seventh property).</p></li>
-        <li id="p-acceptability"><h3>Acceptability</h3><p>Money is accepted because others accept it, and this is the network effect in action. High fees, a reputation as a file-sharing platform and legal risk from storing unknown files all give merchants, users and node operators reasons to walk away.</p></li>
-        <li id="p-immutability"><h3>Immutability through decentralization</h3><p>No one can rewrite history because no one controls enough of the network. Every cost spam adds (storage, bandwidth, legal exposure) pushes out smaller node operators first. Fewer, larger nodes mean a more centralized network and a weaker guarantee that the rules and history stay fixed.</p></li>
+        <li id="p-durability"><h3>Durability</h3><p>Money has to last. Bitcoin's ledger lasts because many independent people keep and verify it. Data written to the chain stays there permanently, and data hidden in unspendable outputs stays in the set of coins every node holds in fast storage. Both add to the long-term cost of keeping the ledger.</p></li>
+        <li id="p-portability"><h3>Portability</h3><p>Money has to move easily. The cost of moving bitcoin is set by the market for transaction space. When non-monetary demand enters that market, the cost of moving money depends partly on markets that have nothing to do with money.</p></li>
+        <li id="p-divisibility"><h3>Divisibility</h3><p>Money has to be usable in small amounts. The smallest amount worth spending depends on what a transaction costs. Whatever sets that cost for non-monetary reasons also sets, for non-monetary reasons, how small a usable amount of bitcoin can be.</p></li>
+        <li id="p-uniformity"><h3>Uniformity</h3><p>Every unit of money should be as good as any other. Inscription protocols number individual satoshis and treat some as collectibles. Wallets that follow them must track particular coins and avoid spending them, so equal amounts stop being equal.</p></li>
+        <li id="p-scarcity"><h3>Scarcity</h3><p>Non-monetary use doesn't touch the 21 million cap. That cap is enforced by the nodes that verify every block, so it is only as secure as the seventh property below.</p></li>
+        <li id="p-acceptability"><h3>Acceptability</h3><p>Money is accepted because others accept it. That is the network effect itself. A reputation as a permanent file store, and open questions about responsibility for files stored on chain, give some people reasons not to accept, hold or support Bitcoin.</p></li>
+        <li id="p-immutability"><h3>Immutability through decentralization</h3><p>No one can rewrite Bitcoin's history because no one controls enough of the network to do it. That depends on many independent people being able to verify the whole chain. Permanent non-monetary data adds to what each of them must verify, and costs like that fall hardest on the smallest operators.</p></li>
       </ol>
+    </section>
+
+    <section id="divergent">
       <div class="col">
-        <p class="pull">Spam doesn't have to break Bitcoin to hurt it. It only has to make Bitcoin a little less useful as money, block after block, until people choose something else.</p>
+        <h2>When uses diverge, new properties emerge</h2>
+        <p>Emergence isn't unique to money. Any use of Bitcoin, repeated by enough people, produces properties of its own that nobody designed. Monetary use produces the seven above. Non-monetary use produces different ones, and some of them pull directly against the monetary properties. This is what the thesis means by <em>divergent uses</em>.</p>
+        <p>Here are four non-monetary properties that have already emerged, and the monetary property each one pushes against.</p>
+      </div>
+      <div class="pairs">
+        <div class="pair">
+          <div><h3>Collectible coins</h3><p class="displaces">Displaces <a href="#p-uniformity">uniformity</a></p></div>
+          <p>When individual satoshis are numbered and traded as collectibles, some coins become worth more than others of the same amount. Money depends on the opposite being true.</p>
+        </div>
+        <div class="pair">
+          <div><h3>A permanent public file store</h3><p class="displaces">Displaces <a href="#p-acceptability">acceptability</a></p></div>
+          <p>Once Bitcoin is known as a place where any file can be stored forever, it inherits every question that comes with hosting files, including files nobody chose to hold. Those questions have nothing to do with money, but they shape whether people choose to use it as money.</p>
+        </div>
+        <div class="pair">
+          <div><h3>Income that depends on data</h3><p class="displaces">Displaces <a href="#p-immutability">rules that serve money</a></p></div>
+          <p>Miners, marketplaces and services that earn from non-monetary demand have a reason to oppose rules that favour monetary use. Coverage of the failed BIP-110 soft fork in 2026 reported fee revenue from inscriptions and Runes as one reason mining pools rejected it.</p>
+        </div>
+        <div class="pair">
+          <div><h3>Costs set by speculation</h3><p class="displaces">Displaces <a href="#p-portability">portability</a> and <a href="#p-divisibility">divisibility</a></p></div>
+          <p>Token launches and collectible mints come in waves. During them, the price of moving money is set partly by speculative cycles that have nothing to do with payments.</p>
+        </div>
+      </div>
+      <div class="col">
+        <p class="pull">Spam doesn't have to break Bitcoin to hurt it. It only has to grow properties that make Bitcoin a little less useful as money, until people choose something else.</p>
       </div>
     </section>
 
-    <section id="problem">
+    <section id="fees">
       <div class="col">
-        <h2>Blockspace is for moving money</h2>
-        <p>Every Bitcoin node downloads, checks and relays every transaction. That shared cost is worth paying because the network does one job: settle payments without anyone's permission. That job is where the network effect comes from.</p>
-        <p>Since early 2023, a growing share of that space has gone to data that has nothing to do with payments. Images and text are written into the witness of Taproot transactions. Token "mints" repeat the same few bytes thousands of times. Some schemes hide files inside fake public keys that can never be spent, so every node has to hold them in memory for good.</p>
-        <p>The usual response is a shrug: data is just data, it pays fees, filters don't work, get over it. That view treats Bitcoin as a neutral database. But Bitcoin isn't valuable as a database. It's valuable as money, and uses that compete with money erode the properties that made it money in the first place.</p>
-        <p>Spam is an economic behaviour, and economic behaviour responds to cost, friction and rules. Bitcoin has changed all three before.</p>
-        <p class="pull">A transaction that pays a fee isn't automatically welcome. Nodes have always decided what they relay, and the protocol has always decided what is valid.</p>
+        <h2>Paying for space doesn't make a use monetary</h2>
+        <p>A common view is that the fee market alone should decide what enters a block: if a transaction pays, it belongs. Bitcoin has never worked that way.</p>
+        <p>Consensus rules reject transactions that break them, whatever fee they offer. Relay policy has long declined to pass on transactions that are valid but non-standard. Outputs too small to be worth spending have been non-standard since 2013. Each of these puts something other than price in charge of what gets in.</p>
+        <p>Fees decide the order of transactions the rules allow. The rules decide what is allowed. Whether Bitcoin's rules should favour its use as money is a question fees can't answer, because it's a question about the rules themselves.</p>
+        <p class="pull">Paying for block space does not make a transaction's purpose monetary.</p>
       </div>
     </section>
 
     <section id="routes">
       <div class="col">
         <h2>How data gets in</h2>
-        <p>There are three main routes for stuffing non-payment data into Bitcoin. They don't all cost the network the same, and they don't all need the same fix.</p>
+        <p>Non-monetary data enters Bitcoin through a few routes. Each one exists because of what the rules allow, and each is priced by what the rules charge.</p>
       </div>
       <div class="table-scroll">
-        <table style="min-width:820px">
+        <table>
           <thead>
-            <tr><th scope="col">Route</th><th scope="col">How it works</th><th scope="col">Cost to the network</th><th scope="col">Fee discount</th><th scope="col">Properties eroded</th></tr>
+            <tr><th scope="col">Route</th><th scope="col">How it works</th><th scope="col">What the rules allow</th><th scope="col">Price per byte</th><th scope="col">Properties affected</th></tr>
           </thead>
           <tbody>
             <tr>
               <td>OP_RETURN outputs</td>
-              <td>Data goes in an output marked provably unspendable.</td>
-              <td>Stored in the chain but kept out of the UTXO set. Easy to prune.</td>
-              <td><span class="tag ok">None, full price</span></td>
-              <td>Durability, when the limit is lifted</td>
+              <td>Data goes in an output marked provably unspendable. Runes tokens use this route.</td>
+              <td>Kept out of the set of spendable coins, so it can be pruned. Bitcoin Core's default relay limit was 83 bytes until version 30 (October 2025) raised it to 100,000 bytes and allowed several per transaction.</td>
+              <td><span class="tag ok">Full price</span></td>
+              <td>Durability</td>
             </tr>
             <tr>
               <td>Witness envelopes</td>
-              <td>Data is wrapped in a never-executed <code>OP_FALSE OP_IF … OP_ENDIF</code> block inside a Taproot script. This is how inscriptions work.</td>
-              <td>Enlarges blocks up to nearly 4 MB and adds bandwidth and storage for every full node.</td>
-              <td><span class="tag">75% off</span></td>
-              <td>Portability, divisibility, uniformity, immutability through decentralization</td>
+              <td>Data is wrapped in a never-executed <code>OP_FALSE OP_IF … OP_ENDIF</code> block inside a Taproot script. Inscriptions and BRC-20 tokens use this route.</td>
+              <td>Up to about 400 KB in a transaction relayed by default, and nearly 4 MB if a miner includes it directly.</td>
+              <td><span class="tag">75% discount</span></td>
+              <td>Uniformity, durability, immutability through decentralization</td>
             </tr>
             <tr>
               <td>Fake keys and outputs</td>
-              <td>Data is disguised as public keys in multisig or other outputs, as in "stamps". Nobody can ever spend them.</td>
-              <td>The worst case: unspendable junk sits in the UTXO set that every node keeps in fast storage, forever.</td>
-              <td><span class="tag ok">None, full price</span></td>
+              <td>Data is disguised as public keys in multisig or other outputs, as with Stamps. The outputs can never be spent.</td>
+              <td>The data stays in the set of spendable coins that every node holds, permanently.</td>
+              <td><span class="tag ok">Full price</span></td>
               <td>Durability, immutability through decentralization</td>
             </tr>
           </tbody>
@@ -272,8 +317,8 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
       </div>
 
       <div class="col" style="margin-top:40px">
-        <h3>The discount is the real subsidy</h3>
-        <p>SegWit counts witness bytes at a quarter of the weight of other bytes. That discount was designed to make spending coins cheaper than creating new outputs, which keeps the UTXO set small. It was never meant to make JPEGs cheaper than payments. Move the sliders to see what it does to the price of storing a file.</p>
+        <h3>Rules set the price of data</h3>
+        <p>SegWit (<a href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">BIP 141</a>) counts witness bytes at a quarter of the weight of other bytes. The discount was designed so that spending coins would cost less than creating new ones, which keeps the set of spendable coins small. Taproot's script rules (<a href="https://github.com/bitcoin/bips/blob/master/bip-0342.mediawiki">BIP 342</a>) removed the old limit on script size. Together, those two rules made the witness the cheapest place to store large files. Move the sliders to see the difference.</p>
       </div>
 
       <div class="calc">
@@ -282,103 +327,129 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
           <input type="range" id="kb" min="1" max="390" value="100">
           <label for="fee">Fee rate: <output id="fee-out">10 sat/vB</output></label>
           <input type="range" id="fee" min="1" max="200" value="10">
-          <p class="note">This is a simplified estimate that ignores the small transaction overhead. Data in an OP_RETURN costs 1 vbyte per byte; data in a witness costs a quarter of a vbyte per byte.</p>
+          <p class="note">A simplified estimate that ignores the small transaction overhead. Data in an OP_RETURN costs 1 vbyte per byte. Data in a witness costs a quarter of a vbyte per byte.</p>
         </div>
         <div class="bars" aria-live="polite">
           <div class="row">
             <div><span>Paying full price</span><strong id="c-full"></strong></div>
-            <div class="track"><div class="fill a" id="f-full" style="width:100%"></div></div>
+            <div class="track"><div class="fill a" style="width:100%"></div></div>
           </div>
           <div class="row">
             <div><span>As an inscription</span><strong id="c-wit"></strong></div>
-            <div class="track"><div class="fill b" id="f-wit" style="width:25%"></div></div>
+            <div class="track"><div class="fill b" style="width:25%"></div></div>
           </div>
           <p class="note" id="c-save"></p>
         </div>
       </div>
     </section>
 
-    <section id="levers">
+    <section id="choices">
       <div class="col">
-        <h2>Four levers that actually work</h2>
-        <p>None of these makes spam impossible on its own. Together they make it expensive, slow, socially marked and eventually invalid. That's how every other abuse of the network has been handled. Each one protects specific <a href="#money">properties of money</a>.</p>
+        <h2>Where the choices are made</h2>
+        <p>Spam results from the choices that protocol rules allow. Those choices happen at four levels, and they aren't equally powerful. Being honest about which ones work is part of making the case.</p>
       </div>
       <div class="levers">
-        <div class="lever">
-          <p class="who">Node runners</p>
-          <h3>Refuse to relay it</h3>
-          <p>Mempool policy is local. Each node decides what it passes on, and spam that can't reach miners through the public network has to be sent through private deals instead. Bitcoin Knots keeps data-carrier limits and offers filters for inscriptions and other data patterns. Its share of reachable nodes grew sharply through 2025. Every filtering node narrows the path.</p>
-          <p class="protects">Protects: <a href="#p-immutability">immutability through decentralization</a>, <a href="#p-durability">durability</a></p>
+        <div class="lever main">
+          <p class="who">Everyone, through consensus</p>
+          <h3>Protocol rules</h3>
+          <p><span class="can">Can:</span> bind every block, no matter how a transaction reached the miner. Rules set what data costs and how much of it a transaction can carry.</p>
+          <p><span class="cant">Can't:</span> change without broad agreement from the people and businesses that run nodes and hold bitcoin. BIP-110 failed because it didn't have that agreement.</p>
+          <p class="protects">Protects: all seven <a href="#money">monetary properties</a></p>
         </div>
         <div class="lever">
           <p class="who">Miners and pools</p>
-          <h3>Build cleaner block templates</h3>
-          <p>Miners aren't obliged to include every transaction that pays. Protocols like DATUM, used by the OCEAN pool, let individual miners build their own templates with their own filters instead of taking whatever the pool sends. Hashrate that refuses spam pushes it into slower, pricier channels.</p>
+          <h3>Block templates</h3>
+          <p><span class="can">Can:</span> decline to include transactions. Protocols like DATUM, used by the OCEAN pool, let individual miners build their own templates with their own policies.</p>
+          <p><span class="cant">Can't:</span> keep data out while other miners include it. As long as the rules reward it, some miners will take the fees.</p>
           <p class="protects">Protects: <a href="#p-portability">portability</a>, <a href="#p-divisibility">divisibility</a></p>
         </div>
         <div class="lever">
-          <p class="who">Developers</p>
-          <h3>Close the loophole at consensus</h3>
-          <p>Policy nudges. Consensus decides. A soft fork can make data envelopes and oversized pushes invalid, just as earlier soft forks tightened script rules. In late 2025 a time-limited soft fork was proposed to cap output script and data push sizes. Whether or not that specific design wins, it shows the fix can be written, reviewed and activated.</p>
-          <p class="protects">Protects: <a href="#p-durability">durability</a>, <a href="#p-uniformity">uniformity</a>, <a href="#p-scarcity">scarcity</a></p>
+          <p class="who">Node runners</p>
+          <h3>Relay policy</h3>
+          <p><span class="can">Can:</span> decline to pass on transactions and show which policy users prefer. Bitcoin Knots offers filters for common data patterns.</p>
+          <p><span class="cant">Can't:</span> stop transactions sent straight to miners or through relay services that accept them. Relay policy alone doesn't keep spam out of blocks.</p>
+          <p class="protects">Protects: a signal, not a guarantee</p>
         </div>
         <div class="lever">
-          <p class="who">Everyone</p>
-          <h3>Remove the incentive</h3>
-          <p>Spam booms follow speculation: token launches, "rare" sats, marketplace hype. When wallets, exchanges and services decline to support these schemes, the resale market thins and so does demand for blockspace. Nobody pays a premium to publish where no one will list it. The network effect that matters is the one around money, and it grows when that is what Bitcoin is known for.</p>
+          <p class="who">Wallets, exchanges and users</p>
+          <h3>Demand</h3>
+          <p><span class="can">Can:</span> decline to build, list or promote non-monetary schemes, which reduces the market that pays for them.</p>
+          <p><span class="cant">Can't:</span> remove the incentive while the rules still make data storage cheap.</p>
           <p class="protects">Protects: <a href="#p-acceptability">acceptability</a>, <a href="#p-uniformity">uniformity</a></p>
         </div>
+      </div>
+      <div class="col" style="margin-top:36px">
+        <p>That's why this page focuses on rules. Miner and relay choices help at the margins, but the lasting fix is a rule change with broad support. Broad support comes from making the monetary case clearly enough that people who run nodes, hold bitcoin and mine blocks agree with it.</p>
       </div>
     </section>
 
     <section id="history">
       <div class="col">
-        <h2>We've done this before</h2>
-        <p>Bitcoin's history is full of anti-spam rules that people said wouldn't work.</p>
-        <p>In 2010 Satoshi added the 1 MB block size limit, a blunt consensus rule written explicitly to stop the chain being flooded. Nodes have long refused to relay non-standard scripts, and that standardness policy is why most exotic junk never got mined.</p>
-        <p>In 2013 Bitcoin Core 0.8.2 introduced a dust limit after gambling services filled blocks with tiny outputs. It wasn't perfect, but it changed behaviour and ended the worst of it.</p>
-        <p>The OP_RETURN limit itself was a compromise: give people who insist on embedding data a small, prunable place to do it, and keep them out of the UTXO set. The lesson every time was the same. Rules shape behaviour, even when they aren't airtight. And each rule protected the network's use as money over some other use someone wanted to make of it.</p>
+        <h2>Rules have changed before</h2>
+        <p>Every entry below is a rule change, and every one changed behaviour. Some moved Bitcoin toward its role as money. Others opened doors nobody intended.</p>
+      </div>
+      <ol class="timeline">
+        <li><time>2010</time><p>Satoshi adds a 1 MB block size limit. It is widely understood as a guard against spam and denial-of-service attacks. SegWit later replaces it with a weight limit.</p></li>
+        <li><time>2013</time><p>Bitcoin Core 0.8.2 makes "dust" outputs, too small to be worth spending, non-standard.</p></li>
+        <li><time>2014</time><p>Bitcoin Core 0.9 makes small OP_RETURN outputs standard. The aim is to give data a prunable place that stays out of the set of spendable coins. The limit later settles at 80 bytes of data.</p></li>
+        <li class="away"><time>2017</time><p>SegWit activates and counts witness data at a quarter of the weight of other data.</p></li>
+        <li class="away"><time>2021</time><p>Taproot activates, and its script rules remove the old script size limit.</p></li>
+        <li class="away"><time>2023</time><p>Ordinals inscriptions combine those two changes to store large files cheaply. In February a single inscription takes up 3.96 MB of block 774,628.</p></li>
+        <li class="away"><time>2024</time><p>Runes tokens launch at the April halving, using OP_RETURN outputs.</p></li>
+        <li class="away"><time>2025</time><p>Bitcoin Core 30 raises its default OP_RETURN relay limit from 83 bytes to 100,000 bytes.</p></li>
+        <li><time>2026</time><p>BIP-110, a temporary soft fork to limit data, fails. About 2.5% of blocks signal for it against a 55% threshold, and the minority chain stalls after two blocks.</p></li>
+      </ol>
+      <div class="col">
+        <p>BIP-110 didn't show that spam can't be stopped. It showed that one design, at one moment, didn't win enough agreement. Rules that move Bitcoin toward money have been adopted before, and rules that moved it away were adopted too. Which way the rules move next depends on which argument persuades more people.</p>
       </div>
     </section>
 
     <section id="objections">
       <div class="col">
         <h2>The strongest objections, answered</h2>
-        <p>These are the arguments you hear most often for giving up. Each answer comes back to the same test: does this help or hurt the properties that make Bitcoin money?</p>
+        <p>Each answer comes back to the same test: does this help or hurt the properties that make Bitcoin money?</p>
       </div>
       <details>
-        <summary><span class="claim">"Filters don't work. Spammers just go straight to miners."</span>Some do, and that proves the filter is working.</summary>
-        <div class="col"><p>Direct submission services exist precisely because filtered nodes make public relay unreliable. That route costs more, depends on a few cooperating pools and shows exactly who is mining spam. A filter doesn't need to catch 100% to matter. Spam filters in email never did either, and nobody concludes we should turn them off.</p></div>
+        <summary><span class="claim">"Filters don't work. Spammers just go straight to miners."</span>For relay filters on their own, that's largely right.</summary>
+        <div class="col"><p>Transactions can be sent directly to miners, and some relay services accept what filtering nodes refuse. That's why this page doesn't rest its case on filters. Consensus rules apply to every block, however a transaction arrived.</p></div>
       </details>
       <details>
-        <summary><span class="claim">"Filtering hurts fee estimation and block propagation."</span>A real cost, but small, and it shrinks as consensus rules catch up.</summary>
-        <div class="col"><p>A node that hasn't seen a transaction must fetch it when a block arrives, which slows compact block relay slightly. In practice the delay is measured in milliseconds, and it matters most when policy and consensus disagree. The lasting fix is to make the rules agree: tighten consensus so that honest nodes and miners have nothing to disagree about.</p></div>
+        <summary><span class="claim">"Fee demand should be the only thing that decides what goes in a block."</span>It never has been.</summary>
+        <div class="col"><p>Consensus rules, standardness and dust limits have always excluded transactions that were willing to pay. Fees rank what the rules allow. They were never meant to decide what the rules should be. See <a href="#fees">paying for space doesn't make a use monetary</a>.</p></div>
       </details>
       <details>
-        <summary><span class="claim">"If you block one method, they'll hide data somewhere worse, like fake keys."</span>That argument never ends, so it can't justify doing nothing.</summary>
-        <div class="col"><p>Every route has a different price. Fake-key schemes pay full weight with no witness discount, so they cost much more per byte. The goal isn't to reach zero, and it isn't to win an arms race. It's to remove the discount and the convenience, so that storing data on Bitcoin costs what it really costs the network. Worse routes can be addressed next, one at a time, as with every past rule.</p></div>
+        <summary><span class="claim">"Miners like higher fees. Spam pays them more."</span>True today, and worth taking seriously.</summary>
+        <div class="col"><p>Miners are paid in bitcoin, and the value of what they're paid rests on Bitcoin's use as money. Fee income from uses that weaken the monetary properties is a trade-off, not a free gain. Each miner has to weigh short-term fees against the long-term value of the coins they earn.</p></div>
       </details>
       <details>
-        <summary><span class="claim">"Bitcoin is permissionless. Who decides what counts as spam?"</span>Everyone running a node already does, every day.</summary>
-        <div class="col"><p>Permissionless means nobody can stop you owning or sending bitcoin. It has never meant every node must store whatever anyone wants. Standardness rules, dust limits and script limits all draw lines. Drawing one around data that is plainly not a payment isn't censorship. It's the same judgement the network has always exercised. Permissionless money depends on <a href="#p-immutability">decentralization</a>, and a chain that only well-funded operators can afford to run isn't permissionless for long.</p></div>
+        <summary><span class="claim">"If you block one method, they'll hide data somewhere worse."</span>Rules still set the price of every method.</summary>
+        <div class="col"><p>No rule can stop every way of disguising data. But methods differ in cost. Fake-key methods pay full price per byte, four times what the witness costs. The aim isn't zero. It's to stop the rules from making non-monetary data cheaper than monetary use, and to address worse methods as they appear, as past rule changes did.</p></div>
       </details>
       <details>
-        <summary><span class="claim">"Spam pays fees, and miners need fees once the subsidy shrinks."</span>Payments pay fees too, and they're the demand that lasts.</summary>
-        <div class="col"><p>Speculative data markets come in waves and vanish between them, which makes them a poor base for long-term security. Worse, they price out ordinary users, who then leave for custodial services. A fee market built on people actually using Bitcoin as money is the one worth protecting. Security paid for by collectibles while the <a href="#p-acceptability">network effect around money</a> shrinks is a bad trade.</p></div>
+        <summary><span class="claim">"Who decides what counts as spam?"</span>The same process that decides every other rule.</summary>
+        <div class="col"><p>This page uses a clear test: does a use strengthen Bitcoin's monetary properties or displace them? Bitcoin's rules already draw lines around valid transactions, standard scripts and dust. Any new line goes through the same open process of proposal, review and adoption as every earlier one.</p></div>
+      </details>
+      <details>
+        <summary><span class="claim">"Changing the rules to restrict data is censorship."</span>A rule that applies equally to everyone isn't censorship.</summary>
+        <div class="col"><p>Censorship singles out particular people or payments. A consensus rule applies the same way to every transaction and is adopted in the open. Bitcoin has changed its rules this way many times, including the changes that made data storage cheap in the first place.</p></div>
+      </details>
+      <details>
+        <summary><span class="claim">"BIP-110 failed, so the debate is over."</span>One proposal failed. The question didn't go away.</summary>
+        <div class="col"><p>BIP-110 lacked support from miners and major economic nodes. That tells us what a successful change needs: a clear case and broad agreement. It doesn't tell us that rules favouring monetary use can never be adopted.</p></div>
       </details>
     </section>
 
     <section id="act">
       <div class="col">
-        <h2>What you can do this week</h2>
-        <p>Money is emergent. It exists because many people make the same choice, so your choices count. Start with the first step and go as far as you're comfortable.</p>
+        <h2>What you can do</h2>
+        <p>Money is emergent. It exists because many people make the same choice, so your choices count.</p>
       </div>
       <ol class="steps">
-        <li><h3>Run your own node</h3><p>Without one, you don't get a say in relay policy at all. A spare computer and an external drive are enough.</p></li>
-        <li><h3>Set a filtering policy</h3><p>Run Bitcoin Knots, or keep a conservative <code>datacarriersize</code> on the node software you use. Check which options your version supports before relying on them.</p></li>
-        <li><h3>Choose where your hashrate goes</h3><p>If you mine, pick a pool that lets you build your own templates or publicly filters spam.</p></li>
-        <li><h3>Support the fix in review</h3><p>Read soft fork proposals, test them, and give specific feedback on the mailing list and in pull requests. Constructive review moves proposals faster than anger does.</p></li>
-        <li><h3>Stop funding the market</h3><p>Ask your wallet and exchange whether they support inscription and token trading, and move your business if their answer bothers you.</p></li>
+        <li><h3>Run your own node</h3><p>Your node enforces the rules you choose. Rule changes succeed when enough of the people and businesses who use Bitcoin run nodes that enforce them.</p></li>
+        <li><h3>Learn how rules set incentives</h3><p>Read BIP 141 and BIP 342, and use the calculator above. Knowing why data is cheap is the first step to arguing that it shouldn't be.</p></li>
+        <li><h3>Make the monetary case</h3><p>In discussions, apply one test: does this use strengthen Bitcoin's monetary properties, or displace them? Argue the ideas, not the people.</p></li>
+        <li><h3>Take part in review</h3><p>Read, test and comment on proposals on the mailing list and in pull requests. Specific feedback moves proposals further than outrage does.</p></li>
+        <li><h3>Put your business where your view is</h3><p>Choose wallets, exchanges and pools whose policies match the use of Bitcoin you want to support.</p></li>
       </ol>
     </section>
 
@@ -388,11 +459,15 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
         <p>Check these primary sources yourself and form your own view.</p>
       </div>
       <ul class="sources">
-        <li><a href="https://bitcoinknots.org/">Bitcoin Knots</a>: node software with spam filtering options</li>
-        <li><a href="https://github.com/bitcoin/bitcoin">Bitcoin Core</a> source and release notes, including OP_RETURN policy changes</li>
-        <li><a href="https://github.com/bitcoin/bips">Bitcoin Improvement Proposals</a>, including SegWit (BIP 141) and soft fork proposals</li>
+        <li><a href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">BIP 141</a>: SegWit and the witness weight discount</li>
+        <li><a href="https://github.com/bitcoin/bips/blob/master/bip-0342.mediawiki">BIP 342</a>: Taproot's script rules</li>
+        <li><a href="https://github.com/bitcoin/bips/blob/master/bip-0110.mediawiki">BIP 110</a>: the Reduced Data Temporary Softfork</li>
+        <li><a href="https://bitcoincore.org/en/releases/30.0/">Bitcoin Core 30.0 release notes</a>, including the OP_RETURN policy change</li>
+        <li><a href="https://github.com/bitcoin/bitcoin/blob/master/doc/release-notes/release-notes-0.8.2.md">Bitcoin Core 0.8.2 release notes</a>, including the dust rule</li>
+        <li><a href="https://bitcoinknots.org/">Bitcoin Knots</a>: node software with data filtering options</li>
         <li><a href="https://ocean.xyz/">OCEAN</a> and the DATUM protocol for miner-built block templates</li>
-        <li><a href="https://docs.ordinals.com/">Ordinals documentation</a> describing how inscription envelopes work</li>
+        <li><a href="https://docs.ordinals.com/">Ordinals documentation</a> describing inscription envelopes</li>
+        <li><a href="https://crypto.news/bip-110-bitcoin-fork-failed-governance-2026/">Coverage of BIP-110's failure</a> (crypto.news)</li>
         <li><a href="https://groups.google.com/g/bitcoindev">bitcoindev mailing list</a>, where protocol changes are debated</li>
         <li><a href="https://stephanlivera.github.io/Bitcoin-Spam/">Bitcoin Spam</a> by Stephan Livera, which argues the other side</li>
       </ul>
@@ -415,29 +490,38 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
     try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
   });
 
-  // Block grid: 400 cells, each ~10,000 WU. Illustrative proportions.
-  var grid = document.getElementById('grid'), readout = document.getElementById('readout');
-  var N = 400, cells = [];
-  var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
-  var order = [];
-  for (var i = 0; i < N; i++) { var c = document.createElement('span'); grid.appendChild(c); cells.push(c); order.push(i); }
-  for (i = N - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)); var t = order[i]; order[i] = order[j]; order[j] = t; }
-  var states = {
-    now: { pay: 0.42, spam: 0.58, text: 'Illustration: in heavy inscription periods, well over half of a block\'s weight can be embedded data.' },
-    fix: { pay: 0.78, spam: 0.02, text: 'With filters and closed loopholes, that weight goes back to payments, or stays free and keeps fees low.' }
+  // Transaction size squares: area proportional to virtual size.
+  // Typical 1-input, 2-output P2WPKH payment ≈ 141 vB; default relay limit 400,000 WU = 100,000 vB;
+  // a transaction can in principle use a whole block, 4,000,000 WU = 1,000,000 vB.
+  var info = {
+    pay: { html: '<strong>About 141 vbytes.</strong> A common single-signature payment with one input and two outputs.' },
+    std: { html: '<strong>100,000 vbytes, about 700 payments.</strong> The largest transaction Bitcoin Core relays by default, which can hold roughly 400 KB of witness data.' },
+    max: { html: '<strong>Nearly 1,000,000 vbytes, about 7,000 payments.</strong> The consensus rules let one transaction fill a whole block. In 2023 a single inscription used 3.96 MB of block 774,628.' }
   };
-  function render(key) {
-    var s = states[key], nPay = Math.round(N * s.pay), nSpam = Math.round(N * s.spam);
-    order.forEach(function (idx, k) {
-      cells[idx].className = k < nPay ? 'p' : (k < nPay + nSpam ? 's' : '');
+  var order = ['pay', 'std', 'max'];
+  var readout = document.getElementById('readout');
+  var buttons = document.querySelectorAll('.switch button');
+  function style() { return getComputedStyle(root); }
+  function render(k) {
+    var cs = style(), idx = order.indexOf(k);
+    order.forEach(function (key, i) {
+      var r = document.getElementById('sq-' + key);
+      var on = i <= idx;
+      var colour = key === 'pay' ? cs.getPropertyValue('--pay') : cs.getPropertyValue('--spam');
+      r.style.fill = on ? (i === idx ? colour : 'transparent') : 'transparent';
+      r.style.stroke = on ? colour : cs.getPropertyValue('--rule');
+      r.style.fillOpacity = i === idx && key !== 'pay' ? .35 : 1;
     });
-    readout.textContent = s.text;
-    document.getElementById('b-now').setAttribute('aria-pressed', key === 'now');
-    document.getElementById('b-fix').setAttribute('aria-pressed', key === 'fix');
+    document.getElementById('sq-pay').style.fill = cs.getPropertyValue('--pay');
+    document.getElementById('sq-pay').style.fillOpacity = 1;
+    readout.innerHTML = info[k].html;
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.k === k); });
   }
-  document.getElementById('b-now').onclick = function () { render('now'); };
-  document.getElementById('b-fix').onclick = function () { render('fix'); };
-  render('now');
+  var current = 'pay';
+  buttons.forEach(function (b) { b.addEventListener('click', function () { current = b.dataset.k; render(current); }); });
+  new MutationObserver(function () { render(current); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { render(current); });
+  render(current);
 
   // Fee calculator
   var kb = document.getElementById('kb'), fee = document.getElementById('fee');
@@ -452,7 +536,7 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
     var full = bytes * rate, wit = Math.round(bytes / 4 * rate);
     document.getElementById('c-full').textContent = fmt(full);
     document.getElementById('c-wit').textContent = fmt(wit);
-    document.getElementById('c-save').textContent = 'The witness discount saves the spammer ' + fmt(full - wit) + ' on this file.';
+    document.getElementById('c-save').textContent = 'The witness discount cuts the price of storing this file by ' + fmt(full - wit) + '.';
   }
   kb.oninput = fee.oninput = calc; calc();
 })();
