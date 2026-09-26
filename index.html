@@ -68,18 +68,38 @@ h1 {
 h1 .quiet { display: block; font-weight: 400; font-stretch: 62%; font-size: .62em; letter-spacing: 0; line-height: 1.05; margin-top: .25em; color: var(--filter); }
 .lede { font-size: 1.2rem; line-height: 1.6; max-width: 36rem; margin: 0; }
 
-/* transaction size visual */
+/* loops diagram */
 .viz { background: var(--paper-2); border-radius: 14px; padding: 20px; margin: 0; }
 .viz-head { font-family: var(--sans); margin-bottom: 14px; }
-.viz-head strong { display: block; font-stretch: 112%; font-weight: 750; margin-bottom: 10px; }
+.viz-head strong { display: block; font-stretch: 112%; font-weight: 750; margin-bottom: 4px; }
+.viz-head span { display: block; font-size: .92rem; color: var(--ink-soft); margin-bottom: 10px; }
 .switch { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 18px; padding: 3px; }
 .switch button { font: 600 .88rem var(--sans); border: 0; background: none; color: var(--ink-soft); padding: 6px 12px; border-radius: 99px; cursor: pointer; }
 .switch button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-.viz svg { display: block; width: 100%; height: auto; }
-.viz rect { transition: fill .35s ease, stroke .35s ease; }
+.viz svg { display: block; width: 100%; height: auto; margin-top: 8px; font-family: var(--sans); }
+.viz .node rect { fill: var(--paper); stroke-width: 2; }
+.viz .node text { fill: var(--ink); font-size: 14.5px; font-weight: 650; }
+.viz .node .sub { font-size: 12px; font-weight: 500; fill: var(--ink-soft); }
+.viz .node { cursor: pointer; }
+.viz .node:focus { outline: none; }
+.viz .node:focus-visible rect, .viz .node.sel rect { stroke-width: 4; }
+.viz .mon .node rect { stroke: var(--filter); }
+.viz .div .node rect { stroke: var(--spam); }
+.viz .rules rect { stroke: var(--ink); fill: var(--paper); }
+.viz .arrow { fill: none; stroke-width: 2.5; }
+.viz .mon .arrow { stroke: var(--filter); }
+.viz .div .arrow { stroke: var(--spam); }
+.viz .lbl { font-size: 12px; font-style: italic; fill: var(--ink-soft); }
+.viz .loop-name { font-size: 12.5px; font-weight: 700; }
+.viz .mon .loop-name { fill: var(--filter); }
+.viz .div .loop-name { fill: var(--spam); }
+.viz .mon, .viz .div { transition: opacity .35s ease; }
+.viz .arrow { transition: stroke-width .35s ease; }
+.viz svg.fav-money .div, .viz svg.fav-data .mon { opacity: .22; }
+.viz svg.fav-money .mon .arrow, .viz svg.fav-data .div .arrow { stroke-width: 4.5; }
 .readout { font: 500 .95rem/1.5 var(--sans); margin: 12px 0 0; min-height: 4.5em; }
 .readout strong { font-stretch: 110%; }
-@media (prefers-reduced-motion: reduce) { .viz rect { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .viz .mon, .viz .div, .viz .arrow { transition: none; } }
 
 /* sections */
 section { padding: 56px 0; border-top: 1px solid var(--rule); }
@@ -202,19 +222,47 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
 
       <figure class="viz" aria-labelledby="viz-cap">
         <div class="viz-head">
-          <strong id="viz-cap">How much one transaction can hold</strong>
-          <div class="switch" role="group" aria-label="Transaction size">
-            <button type="button" data-k="pay" aria-pressed="true">A typical payment</button>
-            <button type="button" data-k="std" aria-pressed="false">Largest relayed by default</button>
-            <button type="button" data-k="max" aria-pressed="false">Largest the rules allow</button>
+          <strong id="viz-cap">Two loops, one lever</strong>
+          <span>The same rules can feed either loop. Tap a box to see where the page argues it.</span>
+          <div class="switch" role="group" aria-label="Which way the rules lean">
+            <button type="button" data-k="money" aria-pressed="false">Rules favour money</button>
+            <button type="button" data-k="data" aria-pressed="false">Rules favour data</button>
           </div>
         </div>
-        <svg viewBox="0 0 320 320" role="img" aria-label="Nested squares with areas proportional to transaction size">
-          <rect id="sq-max" x="10" y="10" width="300" height="300" rx="3" stroke-width="1.5"/>
-          <rect id="sq-std" x="10" y="215.1" width="94.9" height="94.9" rx="2" stroke-width="1.5"/>
-          <rect id="sq-pay" x="10" y="306.4" width="3.6" height="3.6" rx=".5" stroke-width=".5"/>
+        <svg id="loops" viewBox="0 0 440 552" role="img" aria-labelledby="viz-cap viz-desc">
+          <desc id="viz-desc">Two feedback loops fed by protocol rules. The monetary loop: people choose Bitcoin as money, the network effect grows, monetary properties strengthen, and more people choose it. The divergent loop: rules make data cheap, non-monetary use grows, non-monetary properties emerge, and those who earn from them resist rule changes, which keeps the rules as they are.</desc>
+          <defs>
+            <marker id="ah-mon" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--filter)"/></marker>
+            <marker id="ah-div" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--spam)"/></marker>
+          </defs>
+          <g class="mon">
+            <line class="arrow" x1="187" y1="49" x2="251" y2="49" marker-end="url(#ah-mon)"/>
+            <line class="arrow" x1="330" y1="80" x2="287" y2="126" marker-end="url(#ah-mon)"/>
+            <line class="arrow" x1="155" y1="128" x2="112" y2="82" marker-end="url(#ah-mon)"/>
+            <line class="arrow" x1="150" y1="248" x2="72" y2="84" marker-end="url(#ah-mon)"/>
+            <text class="lbl" x="10" y="212">favour money</text>
+            <text class="loop-name" x="220" y="104" text-anchor="middle">Monetary loop</text>
+            <g class="node" id="n-choose" tabindex="0" role="button" aria-label="People choose Bitcoin as money"><rect x="5" y="20" width="180" height="58" rx="10"/><text x="95.0" y="45" text-anchor="middle">People choose</text><text x="95.0" y="64" text-anchor="middle">Bitcoin as money</text></g>
+            <g class="node" id="n-network" tabindex="0" role="button" aria-label="Network effect grows"><rect x="255" y="20" width="180" height="58" rx="10"/><text x="345.0" y="45" text-anchor="middle">Network effect</text><text x="345.0" y="64" text-anchor="middle">grows</text></g>
+            <g class="node" id="n-props" tabindex="0" role="button" aria-label="Monetary properties strengthen"><rect x="130" y="130" width="180" height="58" rx="10"/><text x="220.0" y="155" text-anchor="middle">Monetary properties</text><text x="220.0" y="174" text-anchor="middle">strengthen</text></g>
+          </g>
+          <g class="div">
+            <line class="arrow" x1="220" y1="316" x2="220" y2="366" marker-end="url(#ah-div)"/>
+            <line class="arrow" x1="285" y1="430" x2="328" y2="476" marker-end="url(#ah-div)"/>
+            <line class="arrow" x1="253" y1="509" x2="189" y2="509" marker-end="url(#ah-div)"/>
+            <line class="arrow" x1="70" y1="478" x2="148" y2="320" marker-end="url(#ah-div)"/>
+            <text class="lbl" x="228" y="346">make data cheap</text>
+            <text class="lbl" x="6" y="396">resist change</text>
+            <text class="loop-name" x="220" y="462" text-anchor="middle">Divergent loop</text>
+            <g class="node" id="n-use" tabindex="0" role="button" aria-label="Non-monetary use grows"><rect x="130" y="370" width="180" height="58" rx="10"/><text x="220.0" y="395" text-anchor="middle">Non-monetary use</text><text x="220.0" y="414" text-anchor="middle">grows</text></g>
+            <g class="node" id="n-emerge" tabindex="0" role="button" aria-label="Non-monetary properties emerge"><rect x="255" y="480" width="180" height="58" rx="10"/><text x="345.0" y="505" text-anchor="middle">Non-monetary properties</text><text x="345.0" y="524" text-anchor="middle">emerge</text></g>
+            <g class="node" id="n-resist" tabindex="0" role="button" aria-label="Earners resist rule changes"><rect x="5" y="480" width="180" height="58" rx="10"/><text x="95.0" y="505" text-anchor="middle">Earners resist</text><text x="95.0" y="524" text-anchor="middle">rule changes</text></g>
+          </g>
+          <g class="rules">
+            <g class="node" id="n-rules" tabindex="0" role="button" aria-label="Protocol rules what's allowed, what data costs"><rect x="110" y="250" width="220" height="64" rx="10"/><text x="220.0" y="275" text-anchor="middle">Protocol rules</text><text x="220.0" y="294" text-anchor="middle" class="sub">what's allowed, what data costs</text></g>
+          </g>
         </svg>
-        <p class="readout" id="readout" aria-live="polite"></p>
+        <p class="readout" id="readout" aria-live="polite">Both loops run on the same rules. Choose a side above to see which loop the rules feed.</p>
       </figure>
     </div>
 
@@ -499,38 +547,42 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
     try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
   });
 
-  // Transaction size squares: area proportional to virtual size.
-  // Typical 1-input, 2-output P2WPKH payment ≈ 141 vB; default relay limit 400,000 WU = 100,000 vB;
-  // a transaction can in principle use a whole block, 4,000,000 WU = 1,000,000 vB.
-  var info = {
-    pay: { html: '<strong>About 141 vbytes.</strong> A common single-signature payment with one input and two outputs.' },
-    std: { html: '<strong>100,000 vbytes, about 700 payments.</strong> The largest transaction Bitcoin Core relays by default, which can hold roughly 400 KB of witness data.' },
-    max: { html: '<strong>Nearly 1,000,000 vbytes, about 7,000 payments.</strong> The consensus rules let one transaction fill a whole block. In 2023 a single inscription used 3.96 MB of block 774,628.' }
-  };
-  var order = ['pay', 'std', 'max'];
-  var readout = document.getElementById('readout');
+  // Loops diagram
+  var svg = document.getElementById('loops'), readout = document.getElementById('readout');
   var buttons = document.querySelectorAll('.switch button');
-  function style() { return getComputedStyle(root); }
-  function render(k) {
-    var cs = style(), idx = order.indexOf(k);
-    order.forEach(function (key, i) {
-      var r = document.getElementById('sq-' + key);
-      var on = i <= idx;
-      var colour = key === 'pay' ? cs.getPropertyValue('--pay') : cs.getPropertyValue('--spam');
-      r.style.fill = on ? (i === idx ? colour : 'transparent') : 'transparent';
-      r.style.stroke = on ? colour : cs.getPropertyValue('--rule');
-      r.style.fillOpacity = i === idx && key !== 'pay' ? .35 : 1;
+  var notes = {
+    choose: ['People choose Bitcoin as money', 'Bitcoin is money because users keep choosing it for its advantages over other monies.', '#money'],
+    network: ['Network effect grows', 'Each person who chooses Bitcoin as money makes it more useful to the next.', '#money'],
+    props: ['Monetary properties strengthen', 'The seven properties that make Bitcoin good money, from durability to immutability through decentralization.', '#money'],
+    rules: ['Protocol rules', 'Consensus rules decide what every block may contain and what data costs. They have changed before.', '#history'],
+    use: ['Non-monetary use grows', 'When the rules make data cheap to store, pictures, tokens, non-monetary contracts and files follow.', '#routes'],
+    emerge: ['Non-monetary properties emerge', 'Collectible coins, a permanent file store, costs set by speculation and more, each pushing against a monetary property.', '#divergent'],
+    resist: ['Earners resist rule changes', 'Those who earn from non-monetary demand have a reason to oppose rules that favour money, which keeps the loop running.', '#divergent']
+  };
+  var modes = {
+    money: 'When the rules favour monetary use, the monetary loop feeds itself and the divergent loop loses its fuel.',
+    data: 'When the rules make data cheap, the divergent loop grows, and its earners have a reason to keep the rules that way.'
+  };
+  var mode = null;
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      mode = mode === b.dataset.k ? null : b.dataset.k;
+      svg.classList.toggle('fav-money', mode === 'money');
+      svg.classList.toggle('fav-data', mode === 'data');
+      buttons.forEach(function (o) { o.setAttribute('aria-pressed', o.dataset.k === mode); });
+      readout.textContent = mode ? modes[mode] : 'Both loops run on the same rules. Choose a side above to see which loop the rules feed.';
     });
-    document.getElementById('sq-pay').style.fill = cs.getPropertyValue('--pay');
-    document.getElementById('sq-pay').style.fillOpacity = 1;
-    readout.innerHTML = info[k].html;
-    buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.k === k); });
-  }
-  var current = 'pay';
-  buttons.forEach(function (b) { b.addEventListener('click', function () { current = b.dataset.k; render(current); }); });
-  new MutationObserver(function () { render(current); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { render(current); });
-  render(current);
+  });
+  svg.querySelectorAll('.node').forEach(function (g) {
+    function show() {
+      var n = notes[g.id.slice(2)];
+      svg.querySelectorAll('.node.sel').forEach(function (o) { o.classList.remove('sel'); });
+      g.classList.add('sel');
+      readout.innerHTML = '<strong>' + n[0] + '.</strong> ' + n[1] + ' <a href="' + n[2] + '">Read more</a>';
+    }
+    g.addEventListener('click', show);
+    g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(); } });
+  });
 
   // Fee calculator
   var kb = document.getElementById('kb'), fee = document.getElementById('fee');
