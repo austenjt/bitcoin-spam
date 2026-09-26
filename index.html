@@ -146,11 +146,15 @@ td:first-child { font-weight: 700; white-space: nowrap; }
 .protects a:hover { text-decoration: underline; }
 
 /* timeline */
-ol.timeline { list-style: none; padding: 0; margin: 28px 0; max-width: 46rem; }
-ol.timeline li { display: grid; grid-template-columns: 4.2rem 1fr; gap: 0 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
-ol.timeline time { font: 800 1.15rem/1.5 var(--sans); font-stretch: 110%; color: var(--filter); }
-ol.timeline p { margin: 0; font-size: 1.05rem; }
-ol.timeline li.away time { color: var(--spam); }
+table.timeline { min-width: 0; max-width: 52rem; margin: 28px 0; font: 1.02rem/1.5 var(--serif); }
+table.timeline th { font-family: var(--sans); }
+table.timeline td:first-child { font: 800 1.1rem/1.5 var(--sans); font-stretch: 110%; color: var(--filter); width: 4.2rem; }
+table.timeline tr.away td:first-child { color: var(--spam); }
+table.timeline td:last-child { width: 1%; white-space: nowrap; padding-right: 0; }
+.tag.cons { background: color-mix(in srgb, var(--filter) 16%, transparent); color: var(--filter); }
+.tag.pol { background: color-mix(in srgb, var(--pay) 20%, transparent); color: color-mix(in srgb, var(--pay) 70%, var(--ink)); }
+.tag.use { background: var(--empty); color: var(--ink-soft); }
+@media (max-width: 600px) { table.timeline td:last-child { white-space: normal; width: 6.5rem; } table.timeline .tag { white-space: normal; } }
 
 /* myths */
 details { border-bottom: 1px solid var(--rule); max-width: 46rem; }
@@ -382,19 +386,24 @@ footer { border-top: 1px solid var(--rule); padding: 32px 0 48px; font: .92rem/1
     <section id="history">
       <div class="col">
         <h2>Rules have changed before</h2>
-        <p>Every entry below is a rule change, and every one changed behaviour. Some moved Bitcoin toward its role as money. Others opened doors nobody intended.</p>
+        <p>Bitcoin has two kinds of rules. <strong>Consensus rules</strong> decide which blocks are valid, and every node enforces them on every block. <strong>Node policy</strong> decides what a node relays and what a miner puts in its block template by default. It can differ from node to node and doesn't bind blocks. Most entries below are one or the other, and each changed behaviour. Some moved Bitcoin toward its role as money. Others opened doors nobody intended. Two entries aren't rule changes at all, but new uses that followed from earlier ones.</p>
       </div>
-      <ol class="timeline">
-        <li><time>2010</time><p>Satoshi adds a 1 MB block size limit. It is widely understood as a guard against spam and denial-of-service attacks. SegWit later replaces it with a weight limit.</p></li>
-        <li><time>2013</time><p>Bitcoin Core 0.8.2 makes "dust" outputs, too small to be worth spending, non-standard.</p></li>
-        <li><time>2014</time><p>Bitcoin Core 0.9 makes small OP_RETURN outputs standard. The aim is to give data a prunable place that stays out of the set of spendable coins. The limit later settles at 80 bytes of data.</p></li>
-        <li class="away"><time>2017</time><p>SegWit activates and counts witness data at a quarter of the weight of other data.</p></li>
-        <li class="away"><time>2021</time><p>Taproot activates, and its script rules remove the old script size limit.</p></li>
-        <li class="away"><time>2023</time><p>Ordinals inscriptions combine those two changes to store large files cheaply. In February a single inscription takes up 3.96 MB of block 774,628.</p></li>
-        <li class="away"><time>2024</time><p>Runes tokens launch at the April halving, using OP_RETURN outputs.</p></li>
-        <li class="away"><time>2025</time><p>Bitcoin Core 30 raises its default OP_RETURN relay limit from 83 bytes to 100,000 bytes.</p></li>
-        <li><time>2026</time><p>BIP-110, a temporary soft fork to limit data, fails. About 2.5% of blocks signal for it against a 55% threshold, and the minority chain stalls after two blocks.</p></li>
-      </ol>
+      <div class="table-scroll">
+      <table class="timeline">
+        <thead><tr><th scope="col">Year</th><th scope="col">What changed</th><th scope="col">Type of change</th></tr></thead>
+        <tbody>
+          <tr><td>2010</td><td>Satoshi adds a 1 MB block size limit. It is widely understood as a guard against spam and denial-of-service attacks. SegWit later replaces it with a weight limit.</td><td><span class="tag cons">Consensus</span></td></tr>
+          <tr><td>2013</td><td>Bitcoin Core 0.8.2 makes "dust" outputs, too small to be worth spending, non-standard.</td><td><span class="tag pol">Node policy</span></td></tr>
+          <tr><td>2014</td><td>Bitcoin Core 0.9 makes small OP_RETURN outputs standard. The aim is to give data a prunable place that stays out of the set of spendable coins. The limit later settles at 80 bytes of data.</td><td><span class="tag pol">Node policy</span></td></tr>
+          <tr class="away"><td>2017</td><td>SegWit activates and counts witness data at a quarter of the weight of other data.</td><td><span class="tag cons">Consensus</span></td></tr>
+          <tr class="away"><td>2021</td><td>Taproot activates, and its script rules remove the old script size limit.</td><td><span class="tag cons">Consensus</span></td></tr>
+          <tr class="away"><td>2023</td><td>Ordinals inscriptions combine those two changes to store large files cheaply. In February a single inscription takes up 3.96 MB of block 774,628.</td><td><span class="tag use">New use, no rule change</span></td></tr>
+          <tr class="away"><td>2024</td><td>Runes tokens launch at the April halving, using OP_RETURN outputs.</td><td><span class="tag use">New use, no rule change</span></td></tr>
+          <tr class="away"><td>2025</td><td>Bitcoin Core 30 raises its default OP_RETURN relay limit from 83 bytes to 100,000 bytes.</td><td><span class="tag pol">Node policy</span></td></tr>
+          <tr><td>2026</td><td>BIP-110, a temporary soft fork to limit data, fails. About 2.5% of blocks signal for it against a 55% threshold, and the minority chain stalls after two blocks.</td><td><span class="tag cons">Consensus (proposed)</span></td></tr>
+        </tbody>
+      </table>
+      </div>
       <div class="col">
         <p>BIP-110 didn't show that spam can't be stopped. It showed that one design, at one moment, didn't win enough agreement. Rules that move Bitcoin toward money have been adopted before, and rules that moved it away were adopted too. Which way the rules move next depends on which argument persuades more people.</p>
       </div>
